@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaCode, FaLayerGroup, FaServer, FaMobileAlt } from "react-icons/fa";
-import { SiReact, SiTailwindcss, SiSpringboot, SiMysql, SiJavascript, SiHtml5, SiCss3 } from "react-icons/si";
+import { SiReact } from "react-icons/si";
 
 // FIX: Importing local images
 import project1 from "../assets/project1.png";
@@ -41,7 +41,7 @@ const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
   );
 };
 
-// 2. PROJECT CARD (The main component)
+// 2. PROJECT CARD (NEW GOD-TIER DESIGN)
 const ProjectCard = ({ project }) => {
   const ref = useRef(null);
   const x = useMotionValue(0);
@@ -62,7 +62,7 @@ const ProjectCard = ({ project }) => {
       transition={{ duration: 0.3 }}
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors"
+      className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors flex flex-col h-full"
     >
       {/* Spotlight Effect */}
       <motion.div
@@ -79,8 +79,8 @@ const ProjectCard = ({ project }) => {
       />
 
       {/* Image Section */}
-      <div className="relative h-64 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] to-transparent z-10 opacity-60"></div>
+      <div className="relative h-64 overflow-hidden shrink-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-transparent to-transparent z-10 opacity-80"></div>
         <img 
           src={project.image} 
           alt={project.title} 
@@ -89,41 +89,62 @@ const ProjectCard = ({ project }) => {
         
         {/* Status Badge */}
         <div className="absolute top-4 right-4 z-20">
-          <span className={`px-3 py-1 rounded-full text-xs font-bold border ${project.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'} backdrop-blur-md`}>
-            ● {project.status}
+          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${project.status === 'Live' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'}`}>
+            <span className={`inline-block w-1.5 h-1.5 rounded-full mr-2 ${project.status === 'Live' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
+            {project.status}
           </span>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="p-8 relative z-20">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <div className="text-cyan-400 text-xs font-mono mb-2 flex items-center gap-2">
-              <FaCode /> {project.category.toUpperCase()}
+      <div className="p-8 relative z-20 flex flex-col grow">
+        <div className="mb-4">
+            <div className="text-cyan-400 text-xs font-mono mb-2 flex items-center gap-2 opacity-80">
+              <FaCode /> 
+              <span className="tracking-widest">{project.category.toUpperCase()}</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">{project.title}</h3>
-          </div>
+            <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
         </div>
 
         <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
           {project.desc}
         </p>
 
-        {/* Tech DNA Strip */}
-        <div className="flex items-center gap-2 mb-6 text-gray-500 text-xs font-mono bg-black/30 p-2 rounded-lg border border-white/5">
-          <span className="text-gray-400">STACK_DNA:</span>
-          {project.tags.map((tag, i) => (
-            <span key={i} className="text-cyan-400">[{tag}]</span>
-          ))}
+        {/* --- COOL STACK_DNA SECTION --- */}
+        <div className="mt-auto mb-6">
+          <div className="p-4 bg-[#020617]/50 rounded-xl border border-white/5 backdrop-blur-sm relative overflow-hidden group/dna hover:border-cyan-500/30 transition-colors">
+            
+            {/* Header of the DNA Panel */}
+            <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
+              <FaLayerGroup className="text-cyan-500 text-xs" />
+              <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Stack_DNA</span>
+              <div className="ml-auto w-12 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+            </div>
+
+            {/* The Chips */}
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag, i) => (
+                <span 
+                  key={i} 
+                  className="px-2.5 py-1 text-[11px] font-mono text-cyan-300 bg-cyan-900/10 border border-cyan-500/20 rounded-md hover:bg-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_10px_rgba(34,211,238,0.15)] transition-all duration-300 cursor-default"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Decorative Scanline Effect */}
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-400/5 to-transparent skew-x-12 translate-x-[-200%] group-hover/dna:animate-shimmer pointer-events-none"></div>
+          </div>
         </div>
+        {/* ---------------------------------- */}
 
         {/* Action Buttons */}
         <div className="flex gap-4 pt-4 border-t border-white/5">
-          <a href={project.links.demo} className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+          <a href={project.links.demo} className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
             <FaExternalLinkAlt /> Demo
           </a>
-          <a href={project.links.github} className="flex-1 bg-white/5 hover:bg-white/20 border border-white/10 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+          <a href={project.links.github} className="flex-1 bg-white/5 hover:bg-white/20 border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
             <FaGithub /> Code
           </a>
         </div>
@@ -178,7 +199,7 @@ const Projects = () => {
     },
     {
       id: 4,
-      title: "Cake Odering System",
+      title: "Cake Ordering System",
       category: "Frontend",
       status: "Maintenance",
       desc: "A complete e-commerce solution for a bakery with cart management, admin dashboard, and payment gateway integration.",
@@ -255,8 +276,8 @@ const Projects = () => {
         {/* --- GITHUB CTA --- */}
         <div className="mt-24 text-center">
           <a 
-             href="https://github.com/yourusername" 
-             className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group"
+              href="https://github.com/yourusername" 
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group"
           >
             <FaGithub className="text-2xl group-hover:text-cyan-400 transition-colors" />
             <span className="font-bold text-gray-300 group-hover:text-white">View More on GitHub</span>
