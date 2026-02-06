@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================== 1. THEME VARIABLES ==================== */
+:root {
+  /* DARK MODE (DEFAULT) */
+  --bg-primary: #020617;    /* Deepest Navy (Main Background) */
+  --bg-secondary: #0a0f1e;  /* Lighter Navy (Cards/Sections) */
+  --bg-tertiary: #0f172a;   /* Slate 900 (Terminals/Inputs) */
+  
+  --text-main: #ffffff;     /* Pure White */
+  --text-muted: #94a3b8;    /* Slate 400 */
+  --text-accent: #22d3ee;   /* Cyan 400 */
+
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-highlight: rgba(34, 211, 238, 0.3);
+
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-hover: rgba(255, 255, 255, 0.1);
+}
+
+.light-mode {
+  /* LIGHT MODE OVERRIDES ("High-Tech Lab" Aesthetic) */
+  --bg-primary: #f8fafc;    /* Slate 50 (Main Background) */
+  --bg-secondary: #ffffff;  /* Pure White (Cards) */
+  --bg-tertiary: #f1f5f9;   /* Slate 100 (Inputs) */
+
+  --text-main: #0f172a;     /* Slate 900 */
+  --text-muted: #475569;    /* Slate 600 */
+  --text-accent: #f97316;   /* Orange 500 (Solar Energy) */
+
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-highlight: rgba(249, 115, 22, 0.3);
+
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-hover: rgba(0, 0, 0, 0.06);
+  
+  color-scheme: light; /* Helps browser UI adapt */
+}
+
+/* ==================== 2. GLOBAL STYLES ==================== */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  
+  /* HIDE DEFAULT CURSOR (We use CustomCursor.jsx) */
+  cursor: none;
+}
+
+/* Hide cursor on ALL interactive elements to prevent system cursor flicker */
+a, button, input, textarea, select, label {
+  cursor: none;
+}
+
+/* Smooth Transitions for properties that don't cause layout shifts */
+body, div, nav, footer, button, input, textarea {
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ==================== 3. VARIABLE MAPPING (THE HACK) ==================== */
+/* This maps the specific hex codes used in JSX to our CSS variables */
+
+/* Backgrounds */
+.light-mode .bg-\[\#020617\] { background-color: var(--bg-primary) !important; }
+.light-mode .bg-\[\#0a0f1e\] { background-color: var(--bg-secondary) !important; }
+.light-mode .bg-\[\#0f172a\] { background-color: var(--bg-tertiary) !important; }
+.light-mode .bg-\[\#1e293b\] { background-color: #cbd5e1 !important; } /* Lighter for terminal header */
+
+/* Text Colors */
+.light-mode .text-white { color: var(--text-main) !important; }
+.light-mode .text-gray-300 { color: #334155 !important; }
+.light-mode .text-gray-400 { color: var(--text-muted) !important; }
+.light-mode .text-gray-500 { color: #94a3b8 !important; }
+
+/* Accents (Cyan -> Orange in Light Mode) */
+.light-mode .text-cyan-400 { color: var(--text-accent) !important; }
+.light-mode .bg-cyan-400 { background-color: var(--text-accent) !important; }
+.light-mode .border-cyan-400 { border-color: var(--text-accent) !important; }
+.light-mode .border-cyan-500\/30 { border-color: var(--border-highlight) !important; }
+.light-mode .shadow-\[0_0_10px_\#22d3ee\] { box-shadow: 0 0 10px rgba(249, 115, 22, 0.5) !important; }
+.light-mode .shadow-\[0_0_20px_rgba\(34\,211\,238\,0\.2\)\] { box-shadow: 0 0 20px rgba(249, 115, 22, 0.2) !important; }
+
+/* Borders & Cards */
+.light-mode .border-white\/10, 
+.light-mode .border-white\/5 { 
+  border-color: var(--border-color) !important; 
+}
+
+.light-mode .bg-white\/5, 
+.light-mode .bg-white\/10 { 
+  background-color: var(--card-bg) !important; 
+}
+
+.light-mode .hover\:bg-white\/10:hover {
+  background-color: var(--card-hover) !important;
+}
+
+/* Gradients */
+.light-mode .bg-gradient-to-b {
+  /* Adjust gradients to be subtle in light mode */
+  --tw-gradient-from: #334155;
+  --tw-gradient-to: #94a3b8;
+}
+
+/* ==================== 4. CUSTOM SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-accent);
+}
+
+/* Light Mode Scrollbar Colors */
+.light-mode ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-color: var(--bg-primary);
+}
+.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-accent);
+}
+
+/* ==================== 5. UTILITIES ==================== */
+
+/* Selection Highlight */
+::selection {
+  background: rgba(34, 211, 238, 0.2);
+  color: #22d3ee;
+}
+.light-mode ::selection {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+
+/* Mask Gradient (Used in Marquee) */
+.mask-gradient {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Custom Scrollbar for inner containers (like Command Palette) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+.light-mode .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+}
