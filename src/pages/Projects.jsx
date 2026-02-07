@@ -169,23 +169,23 @@ const Projects = () => {
   const PROJECTS_DATA = [
     {
       id: 1,
-      title: "Luxury Watch Store",
-      category: "Fullstack",
-      status: "Live",
-      desc: "High-end landing page for luxury watches featuring smooth GSAP animations and 3D product rendering concepts.",
+      title: "GodChat- A futeristic social chat application",
+      category: "Frontend",
+      status: "Beta",
+      desc: "Advanced frontend chat experience built with React and Tailwind, showcasing dynamic state management, animated conversations, and production-grade UI systems.",
       image: project1,
-      tags: ["React", "Spring Boot", "MySQL"],
-      links: { demo: "#", github: "#" }
+      tags: ["React Js.", "Tailwind", "Typescript"],
+      links: { demo: "https://koustav2303.github.io/godchat/", github: "https://github.com/Koustav2303/godchat" }
     },
     {
       id: 2,
-      title: "Perfume Marketplace",
+      title: "YatraEase — Intelligent Journeys, Seamlessly Planned",
       category: "Frontend",
       status: "Beta",
-      desc: "A dark-mode aesthetic marketplace for fragrances. Focuses on visual storytelling and elegance.",
+      desc: "Smart travel planning interface designed to simplify trip discovery, comparison, and booking through an intuitive, modern user experience.",
       image: project2,
       tags: ["React", "Tailwind", "Framer"],
-      links: { demo: "#", github: "#" }
+      links: { demo: "https://koustav2303.github.io/yatraease/", github: "https://github.com/Koustav2303/yatraease" }
     },
     {
       id: 3,
