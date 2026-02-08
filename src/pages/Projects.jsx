@@ -189,13 +189,13 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: "Nike Product Page",
-      category: "Design",
+      title: "WeatherPro — A Premium AI-Powered Weather Experience",
+      category: "Live",
       status: "Live",
-      desc: "Dynamic product showcase with color switching, size selection, and responsive interactive elements.",
+      desc: "WeatherPro is a modern, high-performance weather application delivering real-time forecasts through an elegant glassmorphism interface, enhanced with smooth animations and intelligent insights.",
       image: project3,
-      tags: ["HTML", "CSS", "JS"],
-      links: { demo: "#", github: "#" }
+      tags: ["React", "Tailwind CSS", "Next.js", "Weather API"],
+      links: { demo: "https://koustav2303.github.io/WeatherPro/", github: "https://github.com/Koustav2303/WeatherPro" }
     },
     {
       id: 4,
