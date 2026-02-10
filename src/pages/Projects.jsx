@@ -199,13 +199,13 @@ const Projects = () => {
     },
     {
       id: 4,
-      title: "Cake Ordering System",
+      title: "LuxeStay — A Cinematic Luxury Hotel Booking Experience",
       category: "Frontend",
-      status: "Maintenance",
-      desc: "A complete e-commerce solution for a bakery with cart management, admin dashboard, and payment gateway integration.",
+      status: "Beta",
+      desc: "LuxeStay is a high-end, responsive hotel booking web application focused on elegance, performance, and seamless user experience. It features a cinematic parallax hero, advanced search and filtering, smooth transitions, and a refined UI that mirrors the feel of a real luxury travel platform across desktop and mobile.",
       image: project4,
-      tags: ["React", "Redux", "CSS"],
-      links: { demo: "#", github: "#" }
+      tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+      links: { demo: "https://koustav2303.github.io/LuxeStay-hotel-booking-webpage/", github: "https://github.com/Koustav2303/LuxeStay-hotel-booking-webpage" }
     },
   ];
 
