@@ -3,11 +3,20 @@ import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "fram
 import { FaGithub, FaExternalLinkAlt, FaCode, FaLayerGroup, FaServer, FaMobileAlt } from "react-icons/fa";
 import { SiReact } from "react-icons/si";
 
+// --- SWIPER IMPORTS ---
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 // FIX: Importing local images
 import project1 from "../assets/project1.png";
 import project2 from "../assets/project2.png";
 import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
+import project5 from "../assets/project5.png";
 
 /* ==================== SUB-COMPONENTS ==================== */
 
@@ -62,7 +71,7 @@ const ProjectCard = ({ project }) => {
       transition={{ duration: 0.3 }}
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors flex flex-col h-full"
+      className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors flex flex-col h-full shadow-2xl"
     >
       {/* Spotlight Effect */}
       <motion.div
@@ -79,7 +88,7 @@ const ProjectCard = ({ project }) => {
       />
 
       {/* Image Section */}
-      <div className="relative h-64 overflow-hidden shrink-0">
+      <div className="relative h-56 sm:h-64 overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-transparent to-transparent z-10 opacity-80"></div>
         <img 
           src={project.image} 
@@ -97,13 +106,13 @@ const ProjectCard = ({ project }) => {
       </div>
 
       {/* Content Section */}
-      <div className="p-8 relative z-20 flex flex-col grow">
+      <div className="p-6 sm:p-8 relative z-20 flex flex-col grow">
         <div className="mb-4">
             <div className="text-cyan-400 text-xs font-mono mb-2 flex items-center gap-2 opacity-80">
               <FaCode /> 
               <span className="tracking-widest">{project.category.toUpperCase()}</span>
             </div>
-            <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
         </div>
 
         <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
@@ -141,10 +150,10 @@ const ProjectCard = ({ project }) => {
 
         {/* Action Buttons */}
         <div className="flex gap-4 pt-4 border-t border-white/5">
-          <a href={project.links.demo} className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
+          <a href={project.links.demo} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
             <FaExternalLinkAlt /> Demo
           </a>
-          <a href={project.links.github} className="flex-1 bg-white/5 hover:bg-white/20 border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
+          <a href={project.links.github} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-white/20 border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
             <FaGithub /> Code
           </a>
         </div>
@@ -169,7 +178,7 @@ const Projects = () => {
   const PROJECTS_DATA = [
     {
       id: 1,
-      title: "GodChat- A futeristic social chat application",
+      title: "GodChat- A futuristic social chat application",
       category: "Frontend",
       status: "Beta",
       desc: "Advanced frontend chat experience built with React and Tailwind, showcasing dynamic state management, animated conversations, and production-grade UI systems.",
@@ -207,6 +216,16 @@ const Projects = () => {
       tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
       links: { demo: "https://koustav2303.github.io/LuxeStay-hotel-booking-webpage/", github: "https://github.com/Koustav2303/LuxeStay-hotel-booking-webpage" }
     },
+    {
+      id: 5,
+      title: "Next-Gen Employee Management System",
+      category: "Frontend",
+      status: "Beta",
+      desc: "This project is a high-end, responsive HR dashboard focused on streamlined talent management and flawless UX. It combines a cinematic glassmorphism design with advanced real-time search, custom data rendering, and smooth transitions to mirror a modern enterprise platform.",
+      image: project5,
+      tags: ["React", "Vite", "React Bootstrap", "React Router"],
+      links: { demo: "https://koustav2303.github.io/employee-management-system/", github: "https://github.com/Koustav2303/employee-management-system" }
+    },
   ];
 
   const filteredProjects = activeTab === "All" 
@@ -214,7 +233,7 @@ const Projects = () => {
     : PROJECTS_DATA.filter(p => p.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-28 pb-20 px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#020617] text-white pt-28 pb-20 overflow-hidden relative">
       
       {/* --- BACKGROUND GRID ANIMATION --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -225,10 +244,10 @@ const Projects = () => {
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 w-full">
         
         {/* --- HEADER --- */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 px-6">
           <motion.div 
              initial={{ opacity: 0, scale: 0.5 }}
              animate={{ opacity: 1, scale: 1 }}
@@ -247,37 +266,65 @@ const Projects = () => {
           </motion.h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             A collection of experiments, full-scale applications, and digital experiences.
-            <span className="block mt-2 text-cyan-400 font-mono text-sm">// EXPLORE THE ARCHIVES</span>
+            <span className="block mt-2 text-cyan-400 font-mono text-sm">// SWIPE TO EXPLORE</span>
           </p>
         </div>
 
         {/* --- FILTER TABS --- */}
         <FilterTabs tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* --- PROJECTS GRID --- */}
-        <motion.div 
-          layout 
-          className="grid md:grid-cols-2 gap-8"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* --- EMPTY STATE (If no projects match) --- */}
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl">
-            <p className="text-gray-500 text-xl">No projects found in this sector.</p>
-          </div>
-        )}
+        {/* --- 3D PROJECT SLIDER --- */}
+        <div className="w-full relative px-2">
+          {filteredProjects.length > 0 ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab} // Re-animates when tab changes
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Swiper
+                  effect={'coverflow'}
+                  grabCursor={true}
+                  centeredSlides={true}
+                  slidesPerView={'auto'}
+                  initialSlide={1}
+                  coverflowEffect={{
+                    rotate: 35,       
+                    stretch: 0,       
+                    depth: 250,       
+                    modifier: 1,      
+                    slideShadows: false, 
+                  }}
+                  pagination={{ clickable: true, dynamicBullets: true }}
+                  navigation={true}
+                  autoplay={{ delay: 5000, disableOnInteraction: true }}
+                  modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+                  className="w-full py-10"
+                >
+                  {filteredProjects.map((project) => (
+                    // max-w ensures the cards don't stretch too wide
+                    <SwiperSlide key={project.id} className="max-w-[340px] md:max-w-[480px] lg:max-w-[550px]">
+                      <ProjectCard project={project} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            /* --- EMPTY STATE --- */
+            <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl mx-6">
+              <p className="text-gray-500 text-xl">No projects found in this sector.</p>
+            </div>
+          )}
+        </div>
 
         {/* --- GITHUB CTA --- */}
-        <div className="mt-24 text-center">
+        <div className="mt-20 text-center pb-10">
           <a 
               href="https://github.com/yourusername" 
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group z-30 relative"
           >
             <FaGithub className="text-2xl group-hover:text-cyan-400 transition-colors" />
             <span className="font-bold text-gray-300 group-hover:text-white">View More on GitHub</span>
@@ -285,6 +332,46 @@ const Projects = () => {
         </div>
 
       </div>
+
+      {/* --- SWIPER CUSTOM STYLES --- */}
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          background-color: #4b5563 !important; /* gray-600 */
+          opacity: 1 !important;
+        }
+        .swiper-pagination-bullet-active {
+          background-color: #22d3ee !important; /* cyan-400 */
+          transform: scale(1.5);
+        }
+        .swiper-button-next, .swiper-button-prev {
+          color: #22d3ee !important; 
+          background: rgba(10, 15, 30, 0.8); 
+          padding: 30px 20px;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(8px);
+          z-index: 40 !important;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+          background: rgba(34, 211, 238, 0.1);
+          border-color: rgba(34, 211, 238, 0.5);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+          font-size: 20px !important;
+          font-weight: 900;
+        }
+        .swiper-slide {
+          transition: filter 0.3s ease;
+        }
+        .swiper-slide:not(.swiper-slide-active) {
+          filter: brightness(0.5) blur(2px);
+        }
+        @media (max-width: 768px) {
+          .swiper-button-next, .swiper-button-prev {
+            display: none !important; 
+          }
+        }
+      `}</style>
     </div>
   );
 };
