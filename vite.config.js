@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: '/koustavpan-portfolio/', 
   plugins: [react()],
-  base: "/koustavpan-portfolio/", // <--- IMPORTANT: Matches your repo name
+  build: {
+    chunkSizeWarningLimit: 1600, 
+  }
 })
