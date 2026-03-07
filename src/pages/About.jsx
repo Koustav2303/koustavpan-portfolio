@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { FaJava, FaReact, FaCode, FaLaptopCode, FaServer, FaTerminal, FaCircle } from "react-icons/fa";
 import { SiSpringboot, SiTailwindcss, SiMysql, SiJavascript, SiHibernate, SiHtml5 } from "react-icons/si";
+
+// --- YOUR NEW OPTIMIZED GRAPH COMPONENT IMPORT ---
+import GithubGraph from "../components/GithubGraph";
 import profileImg from "../assets/profile.jpg"; 
 
 /* ==================== CONFIGURATION ==================== */
@@ -173,7 +176,7 @@ const SpotlightCard = ({ children, className = "" }) => {
       className={`relative rounded-3xl border border-white/10 bg-[#0f172a] overflow-hidden group ${className}`}
     >
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
         style={{
           background: useMotionTemplate`
             radial-gradient(
@@ -184,7 +187,7 @@ const SpotlightCard = ({ children, className = "" }) => {
           `,
         }}
       />
-      <div className="relative h-full">{children}</div>
+      <div className="relative h-full z-20">{children}</div>
     </div>
   );
 };
@@ -209,7 +212,7 @@ const Typewriter = ({ text, speed = 50 }) => {
 
 // 4. TECH PILL
 const TechPill = ({ icon, name, color }) => (
-  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 hover:bg-white/10 transition-all cursor-default group">
+  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 hover:bg-white/10 transition-all cursor-default group relative z-20">
     <span className={`text-xl ${color} group-hover:scale-110 transition-transform`}>{icon}</span>
     <span className="text-sm font-mono text-gray-300">{name}</span>
   </div>
@@ -223,21 +226,21 @@ const TimelineItem = ({ year, title, place, desc, grade }) => (
     viewport={{ once: true, margin: "-50px" }}
     className="relative pl-8 group"
   >
-    <span className="absolute -left-[5px] top-2 w-3 h-3 rounded-full bg-gray-600 border border-gray-900 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#22d3ee] transition-all duration-500"></span>
+    <span className="absolute -left-[5px] top-2 w-3 h-3 rounded-full bg-gray-600 border border-gray-900 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#22d3ee] transition-all duration-500 z-20"></span>
     
     <div className="mb-1 flex items-center gap-3">
         <span className="text-xs font-mono text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded border border-cyan-400/20">{year}</span>
         <span className="text-xs font-bold text-white bg-white/10 px-2 py-0.5 rounded">{grade}</span>
     </div>
-    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">{title}</h3>
-    <p className="text-sm text-gray-400 mb-2 font-mono">{place}</p>
-    <p className="text-sm text-gray-500 max-w-2xl">{desc}</p>
+    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors relative z-20">{title}</h3>
+    <p className="text-sm text-gray-400 mb-2 font-mono relative z-20">{place}</p>
+    <p className="text-sm text-gray-500 max-w-2xl relative z-20">{desc}</p>
   </motion.div>
 );
 
 // 6. STAT BADGE
 const StatBadge = ({ icon, label, value }) => (
-  <div className="flex items-center gap-3 px-5 py-3 bg-[#0f172a] rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all">
+  <div className="flex items-center gap-3 px-5 py-3 bg-[#0f172a] rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all relative z-20">
     <span className="text-cyan-400 text-xl">{icon}</span>
     <div>
         <div className="text-xs text-gray-400 uppercase tracking-wider">{label}</div>
@@ -298,15 +301,15 @@ const About = () => {
           </div>
 
           {/* Right: SCANNING PROFILE IMAGE */}
-          <div className="relative group flex justify-center">
-            <div className="relative w-80 h-96 rounded-2xl overflow-hidden border-2 border-cyan-500/30 bg-[#0f172a]">
+          <div className="relative group flex justify-center mt-12 lg:mt-0">
+            <div className="relative w-80 h-96 rounded-2xl overflow-hidden border-2 border-cyan-500/30 bg-[#0f172a] z-10">
               <img src={profileImg} alt="Profile" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
               <motion.div 
                 animate={{ top: ["0%", "100%", "0%"] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                className="absolute left-0 w-full h-[2px] bg-cyan-400 shadow-[0_0_20px_#22d3ee] z-20 opacity-50"
+                className="absolute left-0 w-full h-[2px] bg-cyan-400 shadow-[0_0_20px_#22d3ee] z-20 opacity-50 pointer-events-none"
               />
-              <div className="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm p-4 border-t border-cyan-500/30">
+              <div className="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm p-4 border-t border-cyan-500/30 z-30">
                 <div className="flex justify-between text-xs font-mono text-cyan-400">
                   <span>ID: KP-2026</span>
                   <span>STATUS: ACTIVE</span>
@@ -314,13 +317,13 @@ const About = () => {
               </div>
             </div>
             
-            <div className="absolute -z-10 w-80 h-96 border border-purple-500/30 rounded-2xl top-4 -right-4"></div>
-            <div className="absolute -z-20 w-80 h-96 border border-white/10 rounded-2xl top-8 -right-8"></div>
+            <div className="absolute z-0 w-80 h-96 border border-purple-500/30 rounded-2xl top-4 -right-4 hidden sm:block"></div>
+            <div className="absolute z-0 w-80 h-96 border border-white/10 rounded-2xl top-8 -right-8 hidden sm:block"></div>
           </div>
         </div>
 
         {/* --- SECTION 2: CODING TERMINAL & BENTO GRID --- */}
-        <div className="grid md:grid-cols-3 gap-6 mb-24">
+        <div className="grid md:grid-cols-3 gap-6 mb-24 relative z-20">
           
           {/* 1. THE AUTOMATIC CODING TERMINAL (Takes up 2 columns) */}
           <div className="md:col-span-2">
@@ -329,11 +332,11 @@ const About = () => {
 
           {/* 2. Tech Stack Box */}
           <SpotlightCard className="p-8 flex flex-col justify-center">
-             <div className="flex items-center gap-3 mb-6">
+             <div className="flex items-center gap-3 mb-6 relative z-20">
                 <FaTerminal className="text-2xl text-purple-400" />
-                <h3 className="text-xl font-bold">Mainframe Arsenal</h3>
+                <h3 className="text-xl font-bold text-white">Mainframe Arsenal</h3>
              </div>
-             <div className="flex flex-wrap gap-3">
+             <div className="flex flex-wrap gap-3 relative z-20">
                 <TechPill icon={<FaJava />} name="Java" color="text-red-500" />
                 <TechPill icon={<FaReact />} name="React" color="text-cyan-400" />
                 <TechPill icon={<SiSpringboot />} name="Spring" color="text-green-500" />
@@ -344,8 +347,8 @@ const About = () => {
         </div>
 
         {/* --- SECTION 3: THE TIMELINE --- */}
-        <div className="relative">
-           <h2 className="text-4xl font-bold mb-12 flex items-center gap-3">
+        <div className="relative mb-32 z-20">
+           <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
               <span className="text-cyan-400">/</span> System Logs (Education)
            </h2>
            
@@ -380,6 +383,9 @@ const About = () => {
               />
            </div>
         </div>
+
+        {/* --- SECTION 4: THE LAG-FREE GITHUB GRAPH --- */}
+        <GithubGraph />
 
       </div>
     </div>
