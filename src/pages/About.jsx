@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { FaJava, FaReact, FaCode, FaLaptopCode, FaServer, FaTerminal, FaCircle } from "react-icons/fa";
-import { SiSpringboot, SiTailwindcss, SiMysql, SiJavascript, SiHibernate, SiHtml5 } from "react-icons/si";
+import { FaJava, FaReact, FaCode, FaLaptopCode, FaServer, FaTerminal, FaDownload } from "react-icons/fa";
+import { SiSpringboot, SiTailwindcss, SiMysql } from "react-icons/si";
 
-// --- YOUR NEW OPTIMIZED GRAPH COMPONENT IMPORT ---
+// --- COMPONENTS & ASSETS ---
 import GithubGraph from "../components/GithubGraph";
 import profileImg from "../assets/profile.jpg"; 
+import resumePDF from "../assets/resume.pdf"; // Make sure this exact file is in your src/assets folder!
 
 /* ==================== CONFIGURATION ==================== */
 
@@ -72,7 +73,7 @@ ORDER BY passion DESC;
 
 /* ==================== SUB-COMPONENTS ==================== */
 
-// 1. THE AUTOMATIC CODING TERMINAL (MULTI-LANGUAGE LOOP)
+// 1. THE AUTOMATIC CODING TERMINAL
 const CodingTerminal = () => {
   const [currentSnippetIndex, setCurrentSnippetIndex] = useState(0);
   const [displayedCode, setDisplayedCode] = useState("");
@@ -87,12 +88,9 @@ const CodingTerminal = () => {
       if (charIndex <= currentSnippet.code.length) {
         setDisplayedCode(currentSnippet.code.slice(0, charIndex));
         charIndex++;
-        // Random typing speed (30ms - 60ms)
         timeoutId = setTimeout(typeChar, Math.random() * 30 + 30);
       } else {
-        // Finished typing current snippet
         timeoutId = setTimeout(() => {
-          // Wait 3 seconds, then switch to next snippet
           setDisplayedCode("");
           setCurrentSnippetIndex((prev) => (prev + 1) % CODE_SNIPPETS.length);
         }, 3000);
@@ -104,23 +102,17 @@ const CodingTerminal = () => {
     return () => clearTimeout(timeoutId);
   }, [currentSnippetIndex]);
 
-  // Syntax Highlighting for multiple languages
   const highlightSyntax = (code) => {
     return code.split(/(\s+)/).map((word, index) => {
       const trimmed = word.trim();
-      // Keywords (Java, JS, SQL)
-      if (["public", "class", "extends", "private", "void", "while", "return", "const", "return", "import", "from", "SELECT", "FROM", "WHERE", "AND", "ORDER", "BY", "DESC"].includes(trimmed)) 
+      if (["public", "class", "extends", "private", "void", "while", "return", "const", "import", "from", "SELECT", "FROM", "WHERE", "AND", "ORDER", "BY", "DESC"].includes(trimmed)) 
         return <span key={index} className="text-purple-400">{word}</span>;
-      // Types & Components
       if (["String", "Koustav", "Developer", "Hero", "useState", "motion", "Button", "List", "ResponseEntity", "Project"].includes(trimmed)) 
         return <span key={index} className="text-yellow-400">{word}</span>;
-      // Strings
       if (word.includes('"') || word.includes("'")) 
         return <span key={index} className="text-green-400">{word}</span>;
-      // Annotations (Spring)
       if (word.startsWith("@"))
         return <span key={index} className="text-blue-400">{word}</span>;
-      // Comments
       if (word.startsWith("--"))
         return <span key={index} className="text-gray-500 italic">{word}</span>;
       
@@ -130,7 +122,6 @@ const CodingTerminal = () => {
 
   return (
     <div className="w-full h-full bg-[#0a0f1e] rounded-xl border border-white/10 shadow-2xl overflow-hidden flex flex-col font-mono text-sm md:text-base min-h-[350px]">
-      {/* VS Code Title Bar */}
       <div className="bg-[#1e293b] px-4 py-2 flex items-center gap-2 border-b border-white/5">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -142,22 +133,18 @@ const CodingTerminal = () => {
           {currentSnippet.filename}
         </div>
       </div>
-
-      {/* Code Area */}
       <div className="p-6 overflow-hidden relative flex-grow">
         <pre className="whitespace-pre-wrap font-mono leading-relaxed">
           {highlightSyntax(displayedCode)}
           <span className="animate-pulse text-cyan-400">|</span>
         </pre>
-        
-        {/* Glowing Background Blob inside Terminal */}
         <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-500/10 blur-[50px] pointer-events-none"></div>
       </div>
     </div>
   );
 };
 
-// 2. SPOTLIGHT CARD (Glowing Border)
+// 2. SPOTLIGHT CARD
 const SpotlightCard = ({ children, className = "" }) => {
   const divRef = useRef(null);
   const mouseX = useMotionValue(0);
@@ -192,7 +179,7 @@ const SpotlightCard = ({ children, className = "" }) => {
   );
 };
 
-// 3. TYPEWRITER EFFECT (Simple Line)
+// 3. TYPEWRITER EFFECT
 const Typewriter = ({ text, speed = 50 }) => {
   const [displayedText, setDisplayedText] = useState("");
   useEffect(() => {
@@ -298,6 +285,19 @@ const About = () => {
                <StatBadge icon={<FaLaptopCode />} label="Experience" value="Fresh" />
                <StatBadge icon={<FaServer />} label="Stack" value="Full" />
             </div>
+
+            {/* --- DOWNLOAD RESUME BUTTON (PURE TAILWIND) --- */}
+            <div className="mt-12 flex relative z-50">
+              <a 
+                href={resumePDF} 
+                download="Koustav_Pan_Resume.pdf" 
+                className="group flex items-center gap-3 px-8 py-4 bg-cyan-500 text-slate-950 font-bold rounded-full transition-all duration-300 hover:bg-cyan-400 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.6)]"
+              >
+                <FaDownload className="text-xl group-hover:-translate-y-1 transition-transform duration-300" />
+                <span>Download Resume</span>
+              </a>
+            </div>
+            
           </div>
 
           {/* Right: SCANNING PROFILE IMAGE */}
