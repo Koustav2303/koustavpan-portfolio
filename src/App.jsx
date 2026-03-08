@@ -17,6 +17,7 @@ import ScrollProgress from "./components/ScrollProgress";
 import SoundManager from "./components/SoundManager";
 import CommandPalette from "./components/CommandPalette";
 import ThemeToggle from "./components/ThemeToggle";
+import HexaBot from "./components/HexaBot"; // <-- IMPORTED HEXABOT HERE
 
 /* ==================== SUB-COMPONENTS ==================== */
 
@@ -150,7 +151,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen font-sans selection:bg-cyan-500 selection:text-white relative cursor-none transition-colors duration-500">
+    <div className="min-h-screen font-sans selection:bg-cyan-500 selection:text-white relative cursor-none transition-colors duration-500 overflow-x-hidden">
       
       {/* --- ACTIVATE ALL FEATURES --- */}
       <CustomCursor />
@@ -182,7 +183,7 @@ const Layout = () => {
            
            {/* Command Hint */}
            <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono text-gray-500 bg-white/5 px-2 py-1 rounded border border-white/5">
-              <span>CTRL</span><span className="bg-white/10 px-1 rounded text-gray-300">K</span>
+             <span>CTRL</span><span className="bg-white/10 px-1 rounded text-gray-300">K</span>
            </div>
         </div>
 
@@ -240,6 +241,9 @@ const Layout = () => {
           <p className="flex items-center gap-1">Made with <FaHeart className="text-red-500" /> in India</p>
         </div>
       </footer>
+
+      {/* --- HEXABOT AI ASSISTANT --- */}
+      <HexaBot />
 
     </div>
   );
