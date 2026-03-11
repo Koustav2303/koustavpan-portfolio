@@ -5,7 +5,7 @@ import { SiSpringboot, SiTailwindcss, SiMysql } from "react-icons/si";
 
 // --- COMPONENTS & ASSETS ---
 import GithubGraph from "../components/GithubGraph";
-import profileImg from "../assets/profile.jpg"; 
+import profileImg from "../assets/profile2.jpg"; 
 import resumePDF from "../assets/resume.pdf"; 
 
 /* ==================== CONFIGURATION (15 SNIPPETS) ==================== */
