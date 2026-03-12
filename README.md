@@ -1,60 +1,62 @@
-# 🌐 Koustav.dev | Advanced 3D Interactive Portfolio
+# 🌐 KOUSTAV.DEV // DIGITAL_REALITY_ENGINE
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer&logoColor=blue)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/springboot-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 
-Welcome to the source code of my personal portfolio. This is not just a static website; it is an interactive, highly-optimized frontend system built to showcase advanced UI/UX engineering, physics-based animations, and complex client-side logic.
+> **WARNING:** This is not a static webpage. This is a highly-optimized, 60FPS interactive frontend system built to showcase advanced UI/UX engineering, physics-based animations, and complex client-side architecture.
 
-🔗 **Live Deployment:** [Insert Your GitHub Pages URL Here]
-
----
-
-## 🚀 The Mainframe (Key Features)
-
-### 🤖 HexaBot v3.0 (Local AI Assistant)
-A custom-built, fully draggable, client-side AI chatbot that answers questions about my experience, projects, and skills. 
-* **NLP-Light Scoring Algorithm:** Understands intent by scoring input strings, gracefully handling typos and complex sentences.
-* **Typewriter Engine:** Simulates real-time AI response generation with a realistic "Processing..." delay.
-* **Zero-Latency:** Runs entirely in browser memory without relying on external APIs.
-* **Draggable Physics:** Framer Motion enables users to grab the terminal header and move the bot anywhere on the screen.
-
-### 📊 2.5D Holographic GitHub Pipeline
-A complete, cyberpunk-themed overhaul of the standard GitHub contribution graph.
-* **True Parallax Tilt:** Uses `useSpring` and `useTransform` to track mouse velocity and physically tilt the glass panel in 3D space.
-* **Opposing Grid Physics:** Background grid moves inversely to the mouse, tricking the brain into seeing deep 3D space without WebGL overhead.
-* **Mobile Optimized:** Includes smooth horizontal scrolling buttons for smaller devices.
-* **Hacker Glitch Text:** Custom React component that continuously deciphers header text.
-
-### 💻 Automated Multi-Language Terminal
-An infinite-looping code terminal in the About section that simulates real-time typing. It seamlessly rotates through 15+ complex architectural snippets across Java, React, Spring Boot, and SQL, complete with a custom regex-based syntax highlighter.
-
-### 🌓 Cyber-Curtain Theme Toggle
-A seamless, lag-free Dark/Light mode switcher pinned securely to the UI.
-* Bypasses the standard "ugly color flash" by deploying a full-screen, animated SVG curtain (`SYSTEM_REBOOT`) to hide the CSS variable swap.
-* Spring-animated sliding knob mechanism.
-
-### ⚡ 60FPS Mobile Optimization
-The entire UI is built with hardware acceleration (`transform-gpu`). Complex effects like `mix-blend-difference` have been stripped from mobile views to guarantee buttery smooth scrolling and instant menu interactions on all devices.
+🔗 **Initialize Live Deployment:** https://koustav2303.github.io/koustavpan-portfolio/
 
 ---
 
-## 🛠️ Tech Stack Arsenal
+## 🚀 SYSTEM ARCHITECTURE (CORE FEATURES)
 
-* **Core Framework:** React 18, Vite
-* **Styling Engine:** Tailwind CSS (v3)
-* **Animation Physics:** Framer Motion
-* **Routing:** React Router DOM (HashRouter for GitHub Pages compatibility)
-* **Icons:** React Icons
-* **Data Visualization:** React GitHub Calendar
+### 🧠 HexaBot v3.0 (Autonomous Client-Side Entity)
+A fully draggable, integrated AI terminal that processes natural language queries regarding my professional background, strictly within the browser's memory.
+* **Heuristic Scoring Engine:** Bypasses basic keyword matching. It tokenizes user input, scores the array against a categorized knowledge base, and gracefully handles typos and complex phrasing.
+* **Simulated Neural Delay:** Employs a randomized timeout algorithm to mimic cognitive processing, outputting responses via a character-by-character typewriter engine.
+* **Physics-Bound UI:** Leverages `framer-motion` drag controls, allowing users to physically reposition the terminal across the DOM viewport.
+
+### 📊 2.5D Holographic Data Matrix (GitHub Pipeline)
+A cyberpunk-themed, multi-layered visualizer for GitHub contribution data.
+* **True Parallax Rendering:** Uses exact mouse coordinates mapped to `useSpring` hooks to calculate the physical tilt (`rotateX`, `rotateY`) of a glassmorphism chassis.
+* **Opposing Grid Physics:** The background grid coordinates move inversely to the mouse vector, tricking the human brain into perceiving deep 3D physical space without the massive GPU overhead of WebGL.
+* **Responsive Sub-Systems:** Features custom horizontal scroll controls specifically engineered for mobile viewports to prevent layout overflow.
+
+### 💻 Multi-Threaded Syntax Simulator
+An infinite-looping code terminal that renders complex architectural snippets across Advanced Java, Spring Boot, React, and SQL. It features a custom-built, regex-powered syntax highlighter to colorize code strings in real-time.
+
+### 🌗 Sub-Second State Transition (Cyber-Curtain)
+A flawlessly executed Dark/Light mode switcher. 
+* To prevent the dreaded "CSS color flash", this component deploys a hardware-accelerated, full-screen circular clipping mask (`SYSTEM_REBOOT`) to seamlessly hide the DOM variable swap behind a cinematic animation.
 
 ---
 
-## ⚙️ Local Installation & Boot Sequence
+## ⚡ PERFORMANCE OPTIMIZATION
 
-Want to run this system locally? Follow the boot sequence below:
+This system is engineered for maximum frame rates. 
+* **GPU Acceleration:** All heavy animations, background blurs, and sweeping gradients are forced onto the GPU using `transform-gpu` and `will-change`.
+* **Mobile-First Stripping:** Computationally expensive CSS properties (like `mix-blend-difference`) are dynamically stripped from mobile viewports to guarantee 60FPS scrolling on all handheld devices.
 
-**1. Clone the repository:**
+---
+
+## ⚙️ DEPLOYMENT PROTOCOL
+
+To instantiate this environment locally, execute the following boot sequence:
+
 ```bash
+# 1. Clone the repository into local memory
 git clone [https://github.com/Koustav2303/koustavpan-portfolio.git](https://github.com/Koustav2303/koustavpan-portfolio.git)
+
+# 2. Access the root directory
+cd koustavpan-portfolio
+
+# 3. Install required node dependencies
+npm install
+
+# 4. Ignite the Vite development server
+npm run dev
