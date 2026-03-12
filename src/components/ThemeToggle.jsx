@@ -55,11 +55,6 @@ const ThemeToggle = () => {
     
     setIsTransitioning(true);
 
-    // 1. Start the curtain animation
-    // 2. Wait for curtain to cover screen (400ms)
-    // 3. Switch the actual CSS variables
-    // 4. Wait for curtain to close
-    
     setTimeout(() => {
       setIsDark((prev) => !prev);
       if (isDark) {
@@ -80,12 +75,13 @@ const ThemeToggle = () => {
     <>
       <ThemeCurtain isActive={isTransitioning} isDark={isDark} />
       
-      <div className="fixed bottom-8 left-24 z-[90]">
+      {/* FIXED POSITIONING: bottom-6 left-6 locks it to the corner on all devices */}
+      <div className="fixed bottom-6 left-6 md:left-8 z-[90]">
         <motion.button
           onClick={handleToggle}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`relative w-24 h-12 rounded-full p-1 flex items-center transition-colors duration-500 border-2 ${
+          className={`relative w-[88px] h-[42px] rounded-full p-1 flex items-center transition-colors duration-500 border-2 ${
             isDark 
               ? "bg-[#0a0f1e] border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]" 
               : "bg-white border-orange-400/30 shadow-[0_0_20px_rgba(251,146,60,0.3)]"
@@ -101,7 +97,7 @@ const ThemeToggle = () => {
           <motion.div
             layout
             transition={{ type: "spring", stiffness: 700, damping: 30 }}
-            className={`relative z-10 w-10 h-10 rounded-full shadow-md flex items-center justify-center ${
+            className={`relative z-10 w-8 h-8 rounded-full shadow-md flex items-center justify-center ${
               isDark 
                 ? "bg-gradient-to-br from-cyan-400 to-blue-600 ml-auto" 
                 : "bg-gradient-to-br from-yellow-300 to-orange-500 mr-auto"
@@ -116,9 +112,9 @@ const ThemeToggle = () => {
               transition={{ duration: 0.3 }}
             >
               {isDark ? (
-                <FaMoon className="text-white text-sm drop-shadow-md" />
+                <FaMoon className="text-white text-[10px] drop-shadow-md" />
               ) : (
-                <FaSun className="text-white text-sm drop-shadow-md" />
+                <FaSun className="text-white text-[10px] drop-shadow-md" />
               )}
             </motion.div>
           </motion.div>
