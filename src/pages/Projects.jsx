@@ -2,8 +2,6 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaCode, FaLayerGroup, FaServer, FaMobileAlt } from "react-icons/fa";
 import { SiReact } from "react-icons/si";
-
-// --- SWIPER IMPORTS ---
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -11,16 +9,13 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// FIX: Importing local images
 import project1 from "../assets/project1.png";
 import project2 from "../assets/project2.png";
 import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
+import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
-/* ==================== SUB-COMPONENTS ==================== */
-
-// 1. FILTER TABS (The floating capsule menu)
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
     <div className="flex flex-wrap justify-center gap-2 mb-16">
@@ -50,7 +45,6 @@ const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
   );
 };
 
-// 2. PROJECT CARD (NEW GOD-TIER DESIGN)
 const ProjectCard = ({ project }) => {
   const ref = useRef(null);
   const x = useMotionValue(0);
@@ -73,7 +67,6 @@ const ProjectCard = ({ project }) => {
       onMouseMove={handleMouseMove}
       className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors flex flex-col h-full shadow-2xl"
     >
-      {/* Spotlight Effect */}
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
         style={{
@@ -87,7 +80,6 @@ const ProjectCard = ({ project }) => {
         }}
       />
 
-      {/* Image Section */}
       <div className="relative h-56 sm:h-64 overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-transparent to-transparent z-10 opacity-80"></div>
         <img 
@@ -96,7 +88,6 @@ const ProjectCard = ({ project }) => {
           className="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-1 transition duration-700" 
         />
         
-        {/* Status Badge */}
         <div className="absolute top-4 right-4 z-20">
           <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${project.status === 'Live' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'}`}>
             <span className={`inline-block w-1.5 h-1.5 rounded-full mr-2 ${project.status === 'Live' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
@@ -105,7 +96,6 @@ const ProjectCard = ({ project }) => {
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-6 sm:p-8 relative z-20 flex flex-col grow">
         <div className="mb-4">
             <div className="text-cyan-400 text-xs font-mono mb-2 flex items-center gap-2 opacity-80">
@@ -119,18 +109,15 @@ const ProjectCard = ({ project }) => {
           {project.desc}
         </p>
 
-        {/* --- COOL STACK_DNA SECTION --- */}
         <div className="mt-auto mb-6">
           <div className="p-4 bg-[#020617]/50 rounded-xl border border-white/5 backdrop-blur-sm relative overflow-hidden group/dna hover:border-cyan-500/30 transition-colors">
             
-            {/* Header of the DNA Panel */}
             <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
               <FaLayerGroup className="text-cyan-500 text-xs" />
               <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Stack_DNA</span>
               <div className="ml-auto w-12 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
             </div>
 
-            {/* The Chips */}
             <div className="flex flex-wrap gap-2">
               {project.tags.map((tag, i) => (
                 <span 
@@ -142,13 +129,10 @@ const ProjectCard = ({ project }) => {
               ))}
             </div>
 
-            {/* Decorative Scanline Effect */}
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-400/5 to-transparent skew-x-12 translate-x-[-200%] group-hover/dna:animate-shimmer pointer-events-none"></div>
           </div>
         </div>
-        {/* ---------------------------------- */}
 
-        {/* Action Buttons */}
         <div className="flex gap-4 pt-4 border-t border-white/5">
           <a href={project.links.demo} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
             <FaExternalLinkAlt /> Demo
@@ -162,12 +146,9 @@ const ProjectCard = ({ project }) => {
   );
 };
 
-/* ==================== MAIN COMPONENT ==================== */
-
 const Projects = () => {
   const [activeTab, setActiveTab] = useState("All");
 
-  // DATA
   const TABS = [
     { id: "All", label: "All Projects", icon: <FaLayerGroup /> },
     { id: "Fullstack", label: "Fullstack", icon: <FaServer /> },
@@ -235,18 +216,15 @@ const Projects = () => {
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-28 pb-20 overflow-hidden relative">
       
-      {/* --- BACKGROUND GRID ANIMATION --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
       </div>
       
-      {/* Blobs */}
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         
-        {/* --- HEADER --- */}
         <div className="text-center mb-16 px-6">
           <motion.div 
              initial={{ opacity: 0, scale: 0.5 }}
@@ -270,15 +248,13 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* --- FILTER TABS --- */}
         <FilterTabs tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* --- 3D PROJECT SLIDER --- */}
         <div className="w-full relative px-2">
           {filteredProjects.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeTab} // Re-animates when tab changes
+                key={activeTab}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -304,7 +280,6 @@ const Projects = () => {
                   className="w-full py-10"
                 >
                   {filteredProjects.map((project) => (
-                    // max-w ensures the cards don't stretch too wide
                     <SwiperSlide key={project.id} className="max-w-[340px] md:max-w-[480px] lg:max-w-[550px]">
                       <ProjectCard project={project} />
                     </SwiperSlide>
@@ -313,17 +288,32 @@ const Projects = () => {
               </motion.div>
             </AnimatePresence>
           ) : (
-            /* --- EMPTY STATE --- */
             <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl mx-6">
               <p className="text-gray-500 text-xl">No projects found in this sector.</p>
             </div>
           )}
         </div>
 
-        {/* --- GITHUB CTA --- */}
+        <div className="mt-24 max-w-4xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold flex items-center justify-center gap-3 text-white">
+              <span className="text-cyan-400">/</span> Self Declaration
+            </h2>
+          </div>
+          <div className="relative bg-[#0a0f1e] rounded-3xl border border-white/10 p-2 sm:p-4 shadow-2xl overflow-hidden group">
+            <div className="absolute inset-0 z-20 w-full h-full bg-transparent cursor-default"></div>
+            <iframe
+              src={`${selfDeclarePDF}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+              title="Self Declaration"
+              className="w-full h-auto aspect-[1/1.414] rounded-2xl pointer-events-none block"
+              frameBorder="0"
+            />
+          </div>
+        </div>
+
         <div className="mt-20 text-center pb-10">
           <a 
-              href="https://github.com/yourusername" 
+              href="https://github.com/Koustav2303" 
               className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group z-30 relative"
           >
             <FaGithub className="text-2xl group-hover:text-cyan-400 transition-colors" />
@@ -333,14 +323,13 @@ const Projects = () => {
 
       </div>
 
-      {/* --- SWIPER CUSTOM STYLES --- */}
       <style jsx global>{`
         .swiper-pagination-bullet {
-          background-color: #4b5563 !important; /* gray-600 */
+          background-color: #4b5563 !important;
           opacity: 1 !important;
         }
         .swiper-pagination-bullet-active {
-          background-color: #22d3ee !important; /* cyan-400 */
+          background-color: #22d3ee !important;
           transform: scale(1.5);
         }
         .swiper-button-next, .swiper-button-prev {
