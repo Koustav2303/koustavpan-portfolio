@@ -265,7 +265,8 @@ const Projects = () => {
                   grabCursor={true}
                   centeredSlides={true}
                   slidesPerView={'auto'}
-                  initialSlide={1}
+                  initialSlide={0}
+                  loop={true}
                   coverflowEffect={{
                     rotate: 35,       
                     stretch: 0,       
@@ -275,9 +276,13 @@ const Projects = () => {
                   }}
                   pagination={{ clickable: true, dynamicBullets: true }}
                   navigation={true}
-                  autoplay={{ delay: 5000, disableOnInteraction: true }}
+                  autoplay={{ 
+                    delay: 3500, 
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
+                  }}
                   modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-                  className="w-full py-10"
+                  className="w-full py-12 px-4 md:px-16"
                 >
                   {filteredProjects.map((project) => (
                     <SwiperSlide key={project.id} className="max-w-[340px] md:max-w-[480px] lg:max-w-[550px]">
@@ -305,7 +310,7 @@ const Projects = () => {
             <iframe
               src={`${selfDeclarePDF}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
               title="Self Declaration"
-              className="w-full h-auto aspect-[1/1.414] rounded-2xl pointer-events-none block"
+              className="w-full h-auto aspect-[1/1.414] min-h-[400px] sm:min-h-[600px] rounded-2xl pointer-events-none block"
               frameBorder="0"
             />
           </div>
@@ -332,23 +337,56 @@ const Projects = () => {
           background-color: #22d3ee !important;
           transform: scale(1.5);
         }
+        
         .swiper-button-next, .swiper-button-prev {
           color: #22d3ee !important; 
-          background: rgba(10, 15, 30, 0.8); 
-          padding: 30px 20px;
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(8px);
-          z-index: 40 !important;
+          background: rgba(2, 6, 23, 0.7) !important; 
+          width: 56px !important;
+          height: 56px !important;
+          border-radius: 14px !important;
+          border: 1px solid rgba(34, 211, 238, 0.3) !important;
+          outline: 2px solid transparent !important;
+          outline-offset: 2px;
+          box-shadow: 0 0 20px rgba(34,211,238,0.15), inset 0 0 15px rgba(34,211,238,0.1) !important;
+          backdrop-filter: blur(10px);
+          z-index: 50 !important;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .swiper-button-next:after, .swiper-button-prev:after {
+          font-size: 20px !important;
+          font-weight: 900 !important;
+          text-shadow: 0 0 15px rgba(34,211,238,1);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         .swiper-button-next:hover, .swiper-button-prev:hover {
-          background: rgba(34, 211, 238, 0.1);
-          border-color: rgba(34, 211, 238, 0.5);
+          background: rgba(34, 211, 238, 0.15) !important;
+          border-color: #22d3ee !important;
+          outline: 1px solid rgba(34, 211, 238, 0.5) !important;
+          outline-offset: 6px;
+          box-shadow: 0 0 40px rgba(34, 211, 238, 0.6), inset 0 0 20px rgba(34, 211, 238, 0.4) !important;
+          transform: scale(1.05) !important;
         }
-        .swiper-button-next::after, .swiper-button-prev::after {
-          font-size: 20px !important;
-          font-weight: 900;
+        .swiper-button-next:hover:after {
+          transform: translateX(4px) scale(1.1) !important;
         }
+        .swiper-button-prev:hover:after {
+          transform: translateX(-4px) scale(1.1) !important;
+        }
+        .swiper-button-prev {
+          left: 5px !important;
+        }
+        .swiper-button-next {
+          right: 5px !important;
+        }
+        @media (min-width: 768px) {
+          .swiper-button-prev {
+            left: 20px !important;
+          }
+          .swiper-button-next {
+            right: 20px !important;
+          }
+        }
+        
         .swiper-slide {
           transition: filter 0.3s ease;
         }
