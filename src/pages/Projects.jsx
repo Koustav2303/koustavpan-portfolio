@@ -14,6 +14,7 @@ import project2 from "../assets/project2.png";
 import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
+import project6 from "../assets/project6.png";
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
@@ -207,6 +208,16 @@ const Projects = () => {
       tags: ["React", "Vite", "React Bootstrap", "React Router"],
       links: { demo: "https://koustav2303.github.io/employee-management-system/", github: "https://github.com/Koustav2303/employee-management-system" }
     },
+    {
+      id: 6,
+      title: "Online Banking Page : NetBankPro",
+      category: "Frontend",
+      status: "Beta",
+      desc: "This project is a high-end, responsive digital banking suite focused on immersive financial management and a flawless fintech UX. It combines a cinematic glassmorphism design with advanced real-time AI expense analytics, holographic security protocols, and a GSAP-animated UPI Super-App to mirror a modern enterprise banking platform.",
+      image: project6,
+      tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
+      links: { demo: "https://koustav2303.github.io/netBankPro/", github: "https://github.com/Koustav2303/netBankPro" }
+    }
   ];
 
   const filteredProjects = activeTab === "All" 
