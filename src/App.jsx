@@ -246,15 +246,13 @@ function App() {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <Preloader key="preloader" setIsLoading={setLoading} />
-        ) : (
-          <Router>
-            <Layout />
-          </Router>
-        )}
-      </AnimatePresence>
+      {loading && <Preloader onLoadingComplete={() => setLoading(false)} />}
+      
+      <div className={loading ? "h-screen overflow-hidden" : ""}>
+        <Router>
+          <Layout />
+        </Router>
+      </div>
     </>
   );
 }
