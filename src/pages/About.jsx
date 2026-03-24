@@ -408,7 +408,7 @@ const About = () => {
            <div className="space-y-8 relative pl-8 border-l border-white/10">
               <TimelineItem year="2025 - Present" title="Java Fullstack Course" place="J-Spider, BTM Layout, Bengaluru" desc="Specializing in Advanced Java, Spring Boot Microservices, React, and System Design." grade="Current" />
               <TimelineItem year="2021 - 2025" title="B.Tech in Computer Science" place="Bankura Unnayani Institute of Engineering" desc="Affiliated to Maulana Abul Kalam Azad University. Core focus on Algorithms & Data Structures." grade="CGPA: 7.34" />
-              <TimelineItem year="2019" title="Higher Secondary (XII)" place="Garhbeta High School (WBCHSE)" desc="Major in Physics, Chemistry, and Mathematics." grade="Score: 88%" />
+              <TimelineItem year="2021" title="Higher Secondary (XII)" place="Garhbeta High School (WBCHSE)" desc="Major in Physics, Chemistry, and Mathematics." grade="Score: 88%" />
               <TimelineItem year="2019" title="Secondary Exam (X)" place="Panchagrami Saradamoni Vidyapith (WBBSE)" desc="Foundation in General Sciences and Mathematics." grade="Score: 81%" />
            </div>
         </div>
