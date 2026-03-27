@@ -15,6 +15,7 @@ import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
 import project6 from "../assets/project6.png";
+import project7 from "../assets/project7.png"
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
@@ -217,6 +218,16 @@ const Projects = () => {
       image: project6,
       tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
       links: { demo: "https://koustav2303.github.io/netBankPro/", github: "https://github.com/Koustav2303/netBankPro" }
+    },
+    {
+      id: 7,
+      title: "Online Banking Page : NetBankPro",
+      category: "Frontend",
+      status: "Beta",
+      desc: "A hyper-optimized digital storefront for an elite fitness brand. Fusing stark brutalist aesthetics with buttery-smooth 60fps GSAP animations, this platform features 3D interactive coaching rosters, dynamic swipe-stack membership pricing, and a live e-commerce supply shop built for massive conversion.",
+      image: project7,
+      tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
+      links: { demo: "https://koustav2303.github.io/fitx-pro/", github: "https://github.com/Koustav2303/fitx-pro" }
     }
   ];
 
