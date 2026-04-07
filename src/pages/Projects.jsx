@@ -16,6 +16,8 @@ import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
 import project6 from "../assets/project6.png";
 import project7 from "../assets/project7.png"
+import project8 from "../assets/project8.png"
+import project9 from "../assets/project9.png"
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
@@ -228,7 +230,27 @@ const Projects = () => {
       image: project7,
       tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
       links: { demo: "https://koustav2303.github.io/fitx-pro/", github: "https://github.com/Koustav2303/fitx-pro" }
-    }
+    },
+    {
+      id: 8,
+      title: "Lumina: Modern Furniture Webpage.",
+      category: "Frontend",
+      status: "Beta",
+      desc: "An ultra-premium digital storefront for a luxury furniture brand, built to Awwwards-winning standards. Engineered with React and GSAP, this platform features physics-based dual-spring cursors, asymmetrical parallax grids, horizontal pinning, and a custom text-splitting engine to deliver a cinematic, high-fidelity editorial experience.",
+      image: project8,
+      tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
+      links: { demo: "https://koustav2303.github.io/lumina-furniture-webpage/", github: "https://github.com/Koustav2303/lumina-furniture-webpage" }
+    },
+    {
+      id: 9,
+      title: "CareSync: Modern Healthcare App.",
+      category: "Frontend",
+      status: "Beta",
+      desc: "An enterprise-grade healthcare SaaS platform and patient dashboard, engineered to premium production standards. Built with React, Tailwind CSS, and GSAP, this application features global authentication state, interactive data visualizations, and a masterclass animation suite—including infinite marquees, 3D staggered bento grids, and scroll-linked sticky pinning—to deliver a flawless, high-fidelity medical experience.",
+      image: project9,
+      tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
+      links: { demo: "https://koustav2303.github.io/caresync/", github: "https://github.com/Koustav2303/caresync" }
+    },
   ];
 
   const filteredProjects = activeTab === "All" 

@@ -1,7 +1,24 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { FaJava, FaReact, FaCode, FaLaptopCode, FaServer, FaTerminal, FaDownload } from "react-icons/fa";
-import { SiSpringboot, SiTailwindcss, SiMysql } from "react-icons/si";
+import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { 
+  motion, 
+  useScroll, 
+  useTransform, 
+  useInView,
+  animate,
+  useMotionValue,
+  useMotionTemplate, // FIXED: Added missing import
+  AnimatePresence 
+} from "framer-motion";
+import { 
+  FaReact, FaJava, FaCode, FaLaptopCode, FaServer, 
+  FaTerminal, // FIXED: Added missing import
+  FaDownload, FaFolderOpen, FaExternalLinkAlt, 
+  FaCodeBranch, FaStar 
+} from "react-icons/fa";
+import { 
+  SiTailwindcss, SiSpringboot, SiMysql 
+} from "react-icons/si";
 
 // --- COMPONENTS & ASSETS ---
 import GithubGraph from "../components/GithubGraph";
@@ -280,11 +297,13 @@ const SpotlightCard = ({ children, className = "" }) => {
   const divRef = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  
   const handleMouseMove = ({ currentTarget, clientX, clientY }) => {
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   };
+  
   return (
     <div ref={divRef} onMouseMove={handleMouseMove} className={`relative rounded-3xl border border-white/10 bg-[#0f172a] overflow-hidden group ${className}`}>
       <motion.div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
@@ -333,6 +352,98 @@ const StatBadge = ({ icon, label, value }) => (
     <div><div className="text-xs text-gray-400 uppercase tracking-wider">{label}</div><div className="font-bold text-white">{value}</div></div>
   </div>
 );
+
+const LiveRepos = () => {
+  const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/Koustav2303/repos?sort=updated&per_page=8")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setRepos(data.filter((repo) => !repo.fork));
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching repos:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-cyan-400 font-mono text-center my-20 animate-pulse tracking-widest text-sm">
+        INITIALIZING SECURE UPLINK TO GITHUB...
+      </div>
+    );
+  }
+
+  if (!repos.length) return null;
+
+  return (
+    <div className="relative z-20 mb-32">
+      <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
+        <span className="text-cyan-400">/</span> Live Repositories
+      </h2>
+      
+      <div 
+        className="flex overflow-hidden relative w-full" 
+        style={{ 
+          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', 
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' 
+        }}
+      >
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+          className="flex gap-6 pr-6 w-max hover:[animation-play-state:paused]"
+        >
+          {[...repos, ...repos].map((repo, i) => (
+            <a
+              key={i}
+              href={repo.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[280px] md:w-[350px] p-6 rounded-2xl bg-[#0a0f1e]/80 border border-white/10 hover:border-cyan-500/50 hover:bg-[#0f172a] transition-all duration-300 group flex flex-col h-[200px] backdrop-blur-md relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              
+              <div className="flex justify-between items-start mb-4 relative z-10">
+                <div className="flex items-center gap-2 text-cyan-400">
+                  <FaFolderOpen className="text-xl shrink-0" />
+                  <h3 className="font-bold text-white text-lg truncate w-40 md:w-56 group-hover:text-cyan-400 transition-colors">
+                    {repo.name}
+                  </h3>
+                </div>
+                <FaExternalLinkAlt className="text-gray-500 group-hover:text-cyan-400 transition-colors text-sm shrink-0" />
+              </div>
+              
+              <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-grow font-mono relative z-10">
+                {repo.description || "No description provided for this repository."}
+              </p>
+              
+              <div className="flex items-center gap-4 text-xs font-mono text-gray-500 mt-auto relative z-10">
+                {repo.language && (
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400"></span> {repo.language}
+                  </span>
+                )}
+                <span className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+                  <FaStar className="text-gray-600 group-hover:text-yellow-400 transition-colors" /> {repo.stargazers_count}
+                </span>
+                <span className="flex items-center gap-1 hover:text-white transition-colors">
+                  <FaCodeBranch /> {repo.forks_count}
+                </span>
+              </div>
+            </a>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
 /* ==================== MAIN ABOUT COMPONENT ==================== */
 
@@ -412,6 +523,9 @@ const About = () => {
               <TimelineItem year="2019" title="Secondary Exam (X)" place="Panchagrami Saradamoni Vidyapith (WBBSE)" desc="Foundation in General Sciences and Mathematics." grade="Score: 81%" />
            </div>
         </div>
+
+        {/* --- LIVE REPOS SECTION --- */}
+        <LiveRepos />
 
         <GithubGraph />
       </div>
