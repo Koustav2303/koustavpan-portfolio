@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaCode, FaLayerGroup, FaServer, FaMobileAlt } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaCode, FaLayerGroup, FaServer, FaMobileAlt, FaTerminal, FaFolderOpen, FaStar, FaCodeBranch } from "react-icons/fa";
 import { SiReact } from "react-icons/si";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
@@ -15,32 +15,32 @@ import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
 import project6 from "../assets/project6.png";
-import project7 from "../assets/project7.png"
-import project8 from "../assets/project8.png"
-import project9 from "../assets/project9.png"
-import project10 from "../assets/project10.png"
+import project7 from "../assets/project7.png";
+import project8 from "../assets/project8.png";
+import project9 from "../assets/project9.png";
+import project10 from "../assets/project10.png";
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
-    <div className="flex flex-wrap justify-center gap-2 mb-16">
-      <div className="bg-[#0f172a] p-1.5 rounded-full border border-white/10 flex flex-wrap justify-center gap-1 relative z-10">
+    <div className="flex flex-wrap justify-center gap-2 mb-16 relative z-20">
+      <div className="bg-[#0f172a]/80 backdrop-blur-xl p-1.5 rounded-full border border-white/10 flex flex-wrap justify-center gap-1 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`relative px-6 py-2 rounded-full text-sm font-bold transition-colors ${
-              activeTab === tab.id ? "text-black" : "text-gray-400 hover:text-white"
+            className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+              activeTab === tab.id ? "text-slate-950" : "text-gray-400 hover:text-white hover:bg-white/5"
             }`}
           >
             {activeTab === tab.id && (
               <motion.div
                 layoutId="active-pill"
-                className="absolute inset-0 bg-cyan-400 rounded-full"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
               />
             )}
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center gap-2 tracking-wide">
               {tab.icon} {tab.label}
             </span>
           </button>
@@ -56,6 +56,7 @@ const ProjectCard = ({ project }) => {
   const y = useMotionValue(0);
 
   const handleMouseMove = (e) => {
+    if (!ref.current) return;
     const { left, top } = ref.current.getBoundingClientRect();
     x.set(e.clientX - left);
     y.set(e.clientY - top);
@@ -63,91 +64,196 @@ const ProjectCard = ({ project }) => {
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.3 }}
+      /* PERFORMANCE FIX: Removed 'layout' prop. Swiper handles layout, Framer Motion fights it and causes lag */
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="group relative bg-[#0a0f1e] rounded-3xl border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-colors flex flex-col h-full shadow-2xl"
+      className="group relative bg-[#0a0f1e]/90 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden hover:border-cyan-500/50 transition-all duration-500 flex flex-col h-full shadow-2xl hover:shadow-[0_0_40px_rgba(34,211,238,0.2)] will-change-transform"
     >
+      {/* Interactive Mouse Glow */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
+        className="pointer-events-none absolute -inset-px rounded-[2rem] opacity-0 transition duration-300 group-hover:opacity-100 z-10"
         style={{
           background: useMotionTemplate`
             radial-gradient(
-              600px circle at ${x}px ${y}px,
+              800px circle at ${x}px ${y}px,
               rgba(34, 211, 238, 0.15),
               transparent 80%
             )
           `,
         }}
       />
+      
+      {/* Holographic Glare */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
 
-      <div className="relative h-56 sm:h-64 overflow-hidden shrink-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-transparent to-transparent z-10 opacity-80"></div>
+      <div className="relative h-56 sm:h-64 overflow-hidden shrink-0 rounded-t-[2rem]">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-[#0a0f1e]/20 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay"></div>
         <img 
           src={project.image} 
           alt={project.title} 
-          className="w-full h-full object-cover transform group-hover:scale-110 group-hover:rotate-1 transition duration-700" 
+          loading="lazy"
+          className="w-full h-full object-cover transform scale-100 group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 ease-out will-change-transform" 
         />
         
-        <div className="absolute top-4 right-4 z-20">
-          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${project.status === 'Live' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'}`}>
-            <span className={`inline-block w-1.5 h-1.5 rounded-full mr-2 ${project.status === 'Live' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
+        <div className="absolute top-5 right-5 z-30">
+          <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border backdrop-blur-md shadow-lg flex items-center gap-2 ${project.status === 'Live' ? 'bg-green-500/10 text-green-400 border-green-500/30 shadow-[0_0_10px_rgba(74,222,128,0.2)]' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30'}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${project.status === 'Live' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
             {project.status}
           </span>
         </div>
       </div>
 
-      <div className="p-6 sm:p-8 relative z-20 flex flex-col grow">
+      <div className="p-6 sm:p-8 relative z-30 flex flex-col grow">
         <div className="mb-4">
-            <div className="text-cyan-400 text-xs font-mono mb-2 flex items-center gap-2 opacity-80">
-              <FaCode /> 
-              <span className="tracking-widest">{project.category.toUpperCase()}</span>
+            <div className="text-cyan-400 text-xs font-mono mb-3 flex items-center gap-2 opacity-90">
+              <FaCode className="text-sm" /> 
+              <span className="tracking-widest uppercase border-b border-cyan-400/30 pb-0.5">{project.category}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h3>
+            <h3 className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-400 transition-all duration-300 leading-tight">
+              {project.title}
+            </h3>
         </div>
 
-        <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
+        <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3 group-hover:text-gray-300 transition-colors">
           {project.desc}
         </p>
 
-        <div className="mt-auto mb-6">
-          <div className="p-4 bg-[#020617]/50 rounded-xl border border-white/5 backdrop-blur-sm relative overflow-hidden group/dna hover:border-cyan-500/30 transition-colors">
+        <div className="mt-auto mb-8">
+          <div className="p-5 bg-[#020617]/60 rounded-2xl border border-white/5 backdrop-blur-md relative overflow-hidden group/dna hover:border-cyan-500/30 transition-colors shadow-inner">
             
-            <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
-              <FaLayerGroup className="text-cyan-500 text-xs" />
-              <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Stack_DNA</span>
-              <div className="ml-auto w-12 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+            <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-2">
+              <FaLayerGroup className="text-cyan-400 text-sm" />
+              <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Stack_DNA</span>
+              <div className="ml-auto flex gap-1 opacity-50 group-hover/dna:opacity-100 transition-opacity">
+                <span className="w-1 h-3 bg-cyan-400/40 rounded-full animate-pulse"></span>
+                <span className="w-1 h-3 bg-cyan-400/60 rounded-full animate-pulse delay-75"></span>
+                <span className="w-1 h-3 bg-cyan-400/80 rounded-full animate-pulse delay-150"></span>
+              </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 relative z-10">
               {project.tags.map((tag, i) => (
                 <span 
                   key={i} 
-                  className="px-2.5 py-1 text-[11px] font-mono text-cyan-300 bg-cyan-900/10 border border-cyan-500/20 rounded-md hover:bg-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_10px_rgba(34,211,238,0.15)] transition-all duration-300 cursor-default"
+                  className="px-3 py-1.5 text-[10px] font-mono font-bold text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 rounded-lg hover:bg-cyan-400 hover:text-slate-950 hover:border-cyan-400 transition-all duration-300 cursor-default shadow-[0_2px_10px_rgba(0,0,0,0.2)]"
                 >
                   {tag}
                 </span>
               ))}
             </div>
 
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-400/5 to-transparent skew-x-12 translate-x-[-200%] group-hover/dna:animate-shimmer pointer-events-none"></div>
+            {/* Hardware accelerated shimmer */}
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent skew-x-12 translate-x-[-200%] group-hover/dna:animate-shimmer pointer-events-none z-0 will-change-transform"></div>
           </div>
         </div>
 
-        <div className="flex gap-4 pt-4 border-t border-white/5">
-          <a href={project.links.demo} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
-            <FaExternalLinkAlt /> Demo
+        <div className="flex gap-4 pt-5 border-t border-white/10">
+          <a href={project.links.demo} target="_blank" rel="noreferrer" className="flex-1 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-400 hover:text-slate-950 text-cyan-400 text-sm font-black tracking-wide py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] z-30">
+            <FaExternalLinkAlt /> DEMO
           </a>
-          <a href={project.links.github} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-white/20 border border-white/10 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
-            <FaGithub /> Code
+          <a href={project.links.github} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-sm font-bold tracking-wide py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] z-30">
+            <FaGithub className="text-lg" /> CODE
           </a>
         </div>
       </div>
     </motion.div>
+  );
+};
+
+const LiveRepos = () => {
+  const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/Koustav2303/repos?sort=updated&per_page=8")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setRepos(data.filter((repo) => !repo.fork));
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching repos:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-cyan-400 font-mono text-center my-20 animate-pulse tracking-widest text-sm">
+        INITIALIZING SECURE UPLINK TO GITHUB...
+      </div>
+    );
+  }
+
+  if (!repos.length) return null;
+
+  return (
+    <div className="relative z-20 mb-32">
+      <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
+        <span className="text-cyan-400">/</span> Live Repositories
+      </h2>
+      
+      <div 
+        className="flex overflow-hidden relative w-full" 
+        style={{ 
+          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', 
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' 
+        }}
+      >
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+          className="flex gap-6 pr-6 w-max hover:[animation-play-state:paused] will-change-transform"
+        >
+          {[...repos, ...repos].map((repo, i) => (
+            <a
+              key={i}
+              href={repo.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[280px] md:w-[350px] p-6 rounded-2xl bg-[#0a0f1e]/80 border border-white/10 hover:border-cyan-500/50 hover:bg-[#0f172a] transition-all duration-300 group flex flex-col h-[200px] backdrop-blur-md relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              
+              <div className="flex justify-between items-start mb-4 relative z-10">
+                <div className="flex items-center gap-2 text-cyan-400">
+                  <FaFolderOpen className="text-xl shrink-0" />
+                  <h3 className="font-bold text-white text-lg truncate w-40 md:w-56 group-hover:text-cyan-400 transition-colors">
+                    {repo.name}
+                  </h3>
+                </div>
+                <FaExternalLinkAlt className="text-gray-500 group-hover:text-cyan-400 transition-colors text-sm shrink-0" />
+              </div>
+              
+              <p className="text-gray-400 text-sm line-clamp-2 mb-4 flex-grow font-mono relative z-10">
+                {repo.description || "No description provided for this repository."}
+              </p>
+              
+              <div className="flex items-center gap-4 text-xs font-mono text-gray-500 mt-auto relative z-10">
+                {repo.language && (
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400"></span> {repo.language}
+                  </span>
+                )}
+                <span className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+                  <FaStar className="text-gray-600 group-hover:text-yellow-400 transition-colors" /> {repo.stargazers_count}
+                </span>
+                <span className="flex items-center gap-1 hover:text-white transition-colors">
+                  <FaCodeBranch /> {repo.forks_count}
+                </span>
+              </div>
+            </a>
+          ))}
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
@@ -224,7 +330,7 @@ const Projects = () => {
     },
     {
       id: 7,
-      title: "Online Banking Page : NetBankPro",
+      title: "FitX Pro : Elite Fitness Platform",
       category: "Frontend",
       status: "Beta",
       desc: "A hyper-optimized digital storefront for an elite fitness brand. Fusing stark brutalist aesthetics with buttery-smooth 60fps GSAP animations, this platform features 3D interactive coaching rosters, dynamic swipe-stack membership pricing, and a live e-commerce supply shop built for massive conversion.",
@@ -234,7 +340,7 @@ const Projects = () => {
     },
     {
       id: 8,
-      title: "Lumina: Modern Furniture Webpage.",
+      title: "Lumina: Modern Furniture Webpage",
       category: "Frontend",
       status: "Beta",
       desc: "An ultra-premium digital storefront for a luxury furniture brand, built to Awwwards-winning standards. Engineered with React and GSAP, this platform features physics-based dual-spring cursors, asymmetrical parallax grids, horizontal pinning, and a custom text-splitting engine to deliver a cinematic, high-fidelity editorial experience.",
@@ -244,7 +350,7 @@ const Projects = () => {
     },
     {
       id: 9,
-      title: "CareSync: Modern Healthcare App.",
+      title: "CareSync: Modern Healthcare App",
       category: "Frontend",
       status: "Beta",
       desc: "An enterprise-grade healthcare SaaS platform and patient dashboard, engineered to premium production standards. Built with React, Tailwind CSS, and GSAP, this application features global authentication state, interactive data visualizations, and a masterclass animation suite—including infinite marquees, 3D staggered bento grids, and scroll-linked sticky pinning—to deliver a flawless, high-fidelity medical experience.",
@@ -253,11 +359,11 @@ const Projects = () => {
       links: { demo: "https://koustav2303.github.io/caresync/", github: "https://github.com/Koustav2303/caresync" }
     },
     {
-      id: 9,
-      title: "Stilo: A watch shopping webpage design.",
+      id: 10,
+      title: "Stilo: A watch shopping webpage design",
       category: "UI/UX",
-      status: "completed",
-      desc: "An ultra-luxury horology showcase and interactive e-commerce frontend, engineered to Awwwards-tier production standards. Built natively with HTML5, advanced CSS3, and high-performance Vanilla JavaScript, this application features mathematical cursor tracking, real-time time synchronization, and a masterclass animation suite—including horizontal scrollytelling, 3D magnetic tilt cards, editorial split-scroll sticky pinning, and an interactive magnification loupe—to deliver a flawless, high-fidelity tactile experience that mirrors the precision of fine watchmaking.",
+      status: "Live",
+      desc: "An ultra-luxury horology showcase and interactive e-commerce frontend, engineered to Awwwards-tier production standards. Built natively with HTML5, advanced CSS3, and high-performance Vanilla JavaScript, this application features mathematical cursor tracking, real-time time synchronization, and a masterclass animation suite.",
       image: project10,
       tags: ["HTML", "CSS", "JavaScript"],
       links: { demo: "https://koustav2303.github.io/watch-shopping-website/", github: "https://github.com/Koustav2303/watch-shopping-website" }
@@ -269,78 +375,91 @@ const Projects = () => {
     : PROJECTS_DATA.filter(p => p.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-28 pb-20 overflow-hidden relative">
+    <div className="min-h-screen bg-[#020617] text-white pt-28 pb-32 overflow-hidden relative selection:bg-cyan-500/30">
       
+      {/* Ambient Backgrounds - Added will-change for performance */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-         <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+         <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_100%)]"></div>
+         <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[20%] left-[-10%] w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[150px] will-change-transform"></motion.div>
+         <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} className="absolute bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[150px] will-change-transform"></motion.div>
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
       </div>
-      
-      <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
+      <div className="max-w-[1400px] mx-auto relative z-10 w-full px-4 sm:px-6">
         
-        <div className="text-center mb-16 px-6">
+        {/* Header Section */}
+        <div className="text-center mb-20">
           <motion.div 
-             initial={{ opacity: 0, scale: 0.5 }}
-             animate={{ opacity: 1, scale: 1 }}
-             className="inline-block mb-4"
+             initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+             animate={{ opacity: 1, scale: 1, rotate: 0 }}
+             transition={{ duration: 0.5, type: "spring" }}
+             className="inline-block mb-6"
           >
-             <div className="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-3xl text-cyan-400 border border-cyan-500/30 mx-auto">
-               <FaCode />
+             <div className="w-20 h-20 bg-cyan-500/10 rounded-3xl flex items-center justify-center text-4xl text-cyan-400 border border-cyan-500/30 mx-auto shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+               <FaTerminal />
              </div>
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-bold mb-6"
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter"
           >
             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Project Lab</span>
           </motion.h1>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            A collection of experiments, full-scale applications, and digital experiences.
-            <span className="block mt-2 text-cyan-400 font-mono text-sm">// SWIPE TO EXPLORE</span>
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+            className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
+          >
+            A collection of production-grade experiments, scalable full-stack applications, and cinematic digital experiences.
+            <span className="flex items-center justify-center gap-2 mt-4 text-cyan-400 font-mono text-sm font-bold tracking-widest bg-cyan-500/10 w-max mx-auto px-4 py-1.5 rounded-full border border-cyan-500/20">
+              <span className="animate-pulse">{'>>>'}</span> SWIPE TO EXPLORE
+            </span>
+          </motion.p>
         </div>
 
         <FilterTabs tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <div className="w-full relative px-2">
+        {/* Carousel Section */}
+        <div className="w-full relative -mx-4 sm:mx-0">
           {filteredProjects.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.4 }}
               >
                 <Swiper
                   effect={'coverflow'}
                   grabCursor={true}
                   centeredSlides={true}
                   slidesPerView={'auto'}
-                  initialSlide={0}
+                  initialSlide={1}
                   loop={true}
+                  /* Performance Fix: Prevent frequent re-renders during slide */
+                  watchSlidesProgress={true}
+                  updateOnWindowResize={true}
                   coverflowEffect={{
-                    rotate: 35,       
+                    rotate: 25,       
                     stretch: 0,       
-                    depth: 250,       
+                    depth: 300,       
                     modifier: 1,      
                     slideShadows: false, 
                   }}
                   pagination={{ clickable: true, dynamicBullets: true }}
                   navigation={true}
                   autoplay={{ 
-                    delay: 3500, 
+                    delay: 4000, 
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                   }}
                   modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-                  className="w-full py-12 px-4 md:px-16"
+                  className="w-full py-16 px-4 md:px-16"
                 >
                   {filteredProjects.map((project) => (
-                    <SwiperSlide key={project.id} className="max-w-[340px] md:max-w-[480px] lg:max-w-[550px]">
+                    <SwiperSlide key={project.id} className="max-w-[350px] md:max-w-[450px] lg:max-w-[500px]">
                       <ProjectCard project={project} />
                     </SwiperSlide>
                   ))}
@@ -348,106 +467,134 @@ const Projects = () => {
               </motion.div>
             </AnimatePresence>
           ) : (
-            <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl mx-6">
-              <p className="text-gray-500 text-xl">No projects found in this sector.</p>
+            <div className="text-center py-32 border border-dashed border-white/10 rounded-3xl mx-6 bg-white/5 backdrop-blur-sm">
+              <p className="text-gray-500 text-xl font-mono tracking-widest uppercase">No projects found in this sector.</p>
             </div>
           )}
         </div>
 
-        <div className="mt-24 max-w-4xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold flex items-center justify-center gap-3 text-white">
-              <span className="text-cyan-400">/</span> Self Declaration
+        {/* SECURE DATAPAD (Self Declaration) */}
+        <div className="mt-40 max-w-4xl mx-auto px-4 sm:px-6 relative z-20">
+          <div className="text-center mb-12">
+            <span className="text-cyan-400 font-mono text-sm uppercase tracking-widest block mb-3">Verification</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-white">
+              Self Declaration
             </h2>
           </div>
-          <div className="relative bg-[#0a0f1e] rounded-3xl border border-white/10 p-2 sm:p-4 shadow-2xl overflow-hidden group">
-            <div className="absolute inset-0 z-20 w-full h-full bg-transparent cursor-default"></div>
-            <iframe
-              src={`${selfDeclarePDF}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
-              title="Self Declaration"
-              className="w-full h-auto aspect-[1/1.414] min-h-[400px] sm:min-h-[600px] rounded-2xl pointer-events-none block"
-              frameBorder="0"
-            />
+          
+          <div className="relative bg-[#0a0f1e]/90 backdrop-blur-2xl rounded-2xl border border-cyan-500/30 shadow-[0_0_50px_rgba(34,211,238,0.15)] overflow-hidden group">
+            {/* MacOS/Terminal Header */}
+            <div className="bg-[#020617] h-12 border-b border-cyan-500/30 flex items-center px-5 gap-2 relative z-20">
+              <div className="flex gap-2">
+                <div className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-[0_0_5px_rgba(239,68,68,0.5)]"></div>
+                <div className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
+                <div className="w-3.5 h-3.5 rounded-full bg-green-500/90 shadow-[0_0_5px_rgba(34,197,94,0.5)]"></div>
+              </div>
+              <div className="mx-auto text-[11px] sm:text-xs font-mono text-cyan-400/70 uppercase tracking-widest bg-cyan-500/10 px-4 py-1 rounded-full border border-cyan-500/20">
+                secure_viewer.exe // doc_01.pdf
+              </div>
+            </div>
+            
+            {/* Document Area */}
+            <div className="relative p-2 sm:p-6 bg-[#0f172a]">
+              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:30px_30px] z-10"></div>
+              <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 z-10"></div>
+              
+              <div className="relative rounded-xl overflow-hidden border border-white/5 shadow-2xl">
+                <iframe
+                  src={`${selfDeclarePDF}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+                  title="Self Declaration"
+                  className="w-full h-auto aspect-[1/1.414] min-h-[500px] sm:min-h-[700px] bg-white relative z-0"
+                  frameBorder="0"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-20 text-center pb-10">
+        {/* Global Footer CTA */}
+        <div className="mt-32 text-center relative z-20">
           <a 
               href="https://github.com/Koustav2303" 
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0a0f1e] border border-white/10 rounded-full hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all group z-30 relative"
+              className="inline-flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-[#0f172a] to-[#020617] border border-cyan-500/30 rounded-full hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all duration-300 group hover:-translate-y-1"
           >
-            <FaGithub className="text-2xl group-hover:text-cyan-400 transition-colors" />
-            <span className="font-bold text-gray-300 group-hover:text-white">View More on GitHub</span>
+            <FaGithub className="text-3xl text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" />
+            <span className="font-bold tracking-wide text-lg text-gray-300 group-hover:text-white transition-colors duration-300">Access Full Repository</span>
           </a>
         </div>
 
       </div>
 
       <style jsx global>{`
+        /* Swiper Overrides for God-Tier Look */
         .swiper-pagination-bullet {
-          background-color: #4b5563 !important;
+          background-color: #334155 !important;
           opacity: 1 !important;
+          width: 10px !important;
+          height: 10px !important;
+          transition: all 0.3s ease !important;
         }
         .swiper-pagination-bullet-active {
           background-color: #22d3ee !important;
-          transform: scale(1.5);
+          transform: scale(1.8);
+          box-shadow: 0 0 15px rgba(34,211,238,0.8) !important;
         }
         
         .swiper-button-next, .swiper-button-prev {
           color: #22d3ee !important; 
-          background: rgba(2, 6, 23, 0.7) !important; 
-          width: 56px !important;
-          height: 56px !important;
-          border-radius: 14px !important;
-          border: 1px solid rgba(34, 211, 238, 0.3) !important;
-          outline: 2px solid transparent !important;
-          outline-offset: 2px;
-          box-shadow: 0 0 20px rgba(34,211,238,0.15), inset 0 0 15px rgba(34,211,238,0.1) !important;
-          backdrop-filter: blur(10px);
+          background: rgba(2, 6, 23, 0.8) !important; 
+          width: 64px !important;
+          height: 64px !important;
+          border-radius: 16px !important;
+          border: 1px solid rgba(34, 211, 238, 0.4) !important;
+          box-shadow: 0 0 25px rgba(0,0,0,0.8), inset 0 0 15px rgba(34,211,238,0.15) !important;
+          backdrop-filter: blur(12px);
           z-index: 50 !important;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         .swiper-button-next:after, .swiper-button-prev:after {
-          font-size: 20px !important;
+          font-size: 24px !important;
           font-weight: 900 !important;
-          text-shadow: 0 0 15px rgba(34,211,238,1);
+          text-shadow: 0 0 20px rgba(34,211,238,1);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         .swiper-button-next:hover, .swiper-button-prev:hover {
-          background: rgba(34, 211, 238, 0.15) !important;
+          background: rgba(34, 211, 238, 0.2) !important;
           border-color: #22d3ee !important;
-          outline: 1px solid rgba(34, 211, 238, 0.5) !important;
-          outline-offset: 6px;
-          box-shadow: 0 0 40px rgba(34, 211, 238, 0.6), inset 0 0 20px rgba(34, 211, 238, 0.4) !important;
-          transform: scale(1.05) !important;
+          box-shadow: 0 0 40px rgba(34, 211, 238, 0.4), inset 0 0 20px rgba(34, 211, 238, 0.4) !important;
+          transform: scale(1.08) !important;
         }
         .swiper-button-next:hover:after {
-          transform: translateX(4px) scale(1.1) !important;
+          transform: translateX(6px) scale(1.1) !important;
         }
         .swiper-button-prev:hover:after {
-          transform: translateX(-4px) scale(1.1) !important;
+          transform: translateX(-6px) scale(1.1) !important;
         }
-        .swiper-button-prev {
-          left: 5px !important;
-        }
-        .swiper-button-next {
-          right: 5px !important;
-        }
+        .swiper-button-prev { left: 10px !important; }
+        .swiper-button-next { right: 10px !important; }
+        
         @media (min-width: 768px) {
-          .swiper-button-prev {
-            left: 20px !important;
-          }
-          .swiper-button-next {
-            right: 20px !important;
-          }
+          .swiper-button-prev { left: 30px !important; }
+          .swiper-button-next { right: 30px !important; }
         }
         
+        /* PERFORMANCE FIX: Removed blur filter. Using opacity & grayscale is 10x faster for GPU */
         .swiper-slide {
-          transition: filter 0.3s ease;
+          transition: filter 0.4s ease, opacity 0.4s ease;
+          will-change: transform, opacity;
         }
         .swiper-slide:not(.swiper-slide-active) {
-          filter: brightness(0.5) blur(2px);
+          filter: brightness(0.4) grayscale(60%);
+          opacity: 0.5;
         }
+
+        @keyframes shimmer {
+          100% { transform: translateX(200%) skewX(12deg); }
+        }
+        .animate-shimmer {
+          animation: shimmer 2s infinite;
+        }
+
         @media (max-width: 768px) {
           .swiper-button-next, .swiper-button-prev {
             display: none !important; 
