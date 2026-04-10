@@ -18,6 +18,7 @@ import project6 from "../assets/project6.png";
 import project7 from "../assets/project7.png"
 import project8 from "../assets/project8.png"
 import project9 from "../assets/project9.png"
+import project10 from "../assets/project10.png"
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
@@ -250,6 +251,16 @@ const Projects = () => {
       image: project9,
       tags: ["React", "Vite", "React Bootstrap", "React Router","GSAP"],
       links: { demo: "https://koustav2303.github.io/caresync/", github: "https://github.com/Koustav2303/caresync" }
+    },
+    {
+      id: 9,
+      title: "Stilo: A watch shopping webpage design.",
+      category: "UI/UX",
+      status: "completed",
+      desc: "An ultra-luxury horology showcase and interactive e-commerce frontend, engineered to Awwwards-tier production standards. Built natively with HTML5, advanced CSS3, and high-performance Vanilla JavaScript, this application features mathematical cursor tracking, real-time time synchronization, and a masterclass animation suite—including horizontal scrollytelling, 3D magnetic tilt cards, editorial split-scroll sticky pinning, and an interactive magnification loupe—to deliver a flawless, high-fidelity tactile experience that mirrors the precision of fine watchmaking.",
+      image: project10,
+      tags: ["HTML", "CSS", "JavaScript"],
+      links: { demo: "https://koustav2303.github.io/watch-shopping-website/", github: "https://github.com/Koustav2303/watch-shopping-website" }
     },
   ];
 
