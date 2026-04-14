@@ -22,7 +22,7 @@ import {
 
 // --- COMPONENTS & ASSETS ---
 import GithubGraph from "../components/GithubGraph";
-import profileImg from "../assets/profile3.png"; 
+import profileImg from "../assets/profile4.jpg"; 
 import resumePDF from "../assets/resume.pdf"; 
 
 /* ==================== CONFIGURATION (15 SNIPPETS) ==================== */
