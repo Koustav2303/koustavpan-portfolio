@@ -473,7 +473,7 @@ const Home = () => {
             {/* PLAN 1: BASIC */}
             <PricingCard 
               tier="Starter"
-              price="₹14,999"
+              price="₹2,999"
               icon={<FaBolt />}
               desc="Perfect for personal portfolios and landing pages."
               features={["One Page Website", "Responsive Design", "Fast Loading Speed", "Contact Form", "3 Days Delivery"]}
@@ -483,7 +483,7 @@ const Home = () => {
             {/* PLAN 2: STANDARD (POPULAR) */}
             <PricingCard 
               tier="Professional"
-              price="₹29,999"
+              price="₹4,999"
               icon={<FaGem />}
               desc="Best for small businesses and startups."
               features={["Multi-Page Website (5)", "CMS Integration", "SEO Optimization", "Advanced Animations", "1 Month Support"]}
@@ -494,7 +494,7 @@ const Home = () => {
             {/* PLAN 3: PREMIUM */}
             <PricingCard 
               tier="Business"
-              price="₹59,999+"
+              price="₹9,999+"
               icon={<FaCrown />}
               desc="Full-scale web applications with backend."
               features={["Full Stack App", "Database & Auth", "Admin Dashboard", "Payment Gateway", "API Integration"]}
