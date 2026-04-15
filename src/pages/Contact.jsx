@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 
-  FaEnvelope, FaWhatsapp, FaMapMarkerAlt, FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaArrowRight, FaCrosshairs, FaTerminal
+  FaEnvelope, FaWhatsapp, FaMapMarkerAlt, FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaArrowRight, FaCrosshairs, FaTerminal
 } from "react-icons/fa";
 
 const ScrambleText = ({ text }) => {
@@ -439,7 +439,6 @@ const Contact = () => {
                  <MagneticSocialBtn icon={<FaGithub />} link="https://github.com/Koustav2303" label="GitHub" />
                  <MagneticSocialBtn icon={<FaLinkedin />} link="https://www.linkedin.com/in/koustav-pan-7576a3237/" label="LinkedIn" />
                  <MagneticSocialBtn icon={<FaTwitter />} link="https://x.com/Koustav2303" label="Twitter" />
-                 <MagneticSocialBtn icon={<FaInstagram />} link="https://instagram.com" label="Instagram" />
                </div>
             </motion.div>
 
