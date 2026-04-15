@@ -19,6 +19,7 @@ import project7 from "../assets/project7.png";
 import project8 from "../assets/project8.png";
 import project9 from "../assets/project9.png";
 import project10 from "../assets/project10.png";
+import project11 from "../assets/project11.png";
 import selfDeclarePDF from "../assets/selfdeclare.pdf";
 
 const FilterTabs = ({ tabs, activeTab, setActiveTab }) => {
@@ -367,6 +368,16 @@ const Projects = () => {
       image: project10,
       tags: ["HTML", "CSS", "JavaScript"],
       links: { demo: "https://koustav2303.github.io/watch-shopping-website/", github: "https://github.com/Koustav2303/watch-shopping-website" }
+    },
+    {
+      id: 11,
+      title: "Seven Wonders: A High-Performance React Exhibit & Interactive Documentary",
+      category: "UI/UX",
+      status: "Live",
+      desc: "A high-performance React & GSAP showcase exploring the zenith of human architecture. This project serves as a technical masterclass in scroll-linked animations, featuring GPU-accelerated image processing, custom mathematical spotlight tracking, and a complex horizontal timeline. Every interaction is designed for 60fps fluidity, transforming a static historical archive into a living, responsive documentary experience.",
+      image: project11,
+      tags: ["React JS", "Tailwind CSS", "GSAP"],
+      links: { demo: "https://koustav2303.github.io/seven-wonders/", github: "https://github.com/Koustav2303/seven-wonderse" }
     },
   ];
 
