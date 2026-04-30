@@ -7,19 +7,96 @@ import {
   useInView,
   animate,
   useMotionValue,
-  AnimatePresence // Added AnimatePresence
+  AnimatePresence 
 } from "framer-motion";
 import { 
   FaReact, FaJava, FaHtml5, FaGithub, FaRocket, FaCode, FaLaptopCode, 
   FaArrowRight, FaCheck, FaDatabase, FaMobileAlt, FaLayerGroup, FaGem, FaCrown, FaBolt, FaServer, FaPaintBrush,
-  // NEW ICONS FOR TESTIMONIALS
   FaQuoteLeft, FaStar, FaChevronLeft, FaChevronRight, FaUserAstronaut 
 } from "react-icons/fa";
 import { 
   SiTailwindcss, SiSpringboot, SiJavascript, SiMysql, SiDocker, SiNextdotjs, SiTypescript 
 } from "react-icons/si";
 
-/* ==================== SUB-COMPONENTS (DEFINED TOP TO PREVENT ERRORS) ==================== */
+// 3D IMPORTS
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Icosahedron, Float, Stars } from "@react-three/drei";
+
+/* ==================== 3D INTERACTIVE DATA CORE ==================== */
+
+const CoreGeometry = () => {
+  const groupRef = useRef();
+
+  useFrame(({ clock, mouse }) => {
+    const t = clock.getElapsedTime();
+    if (groupRef.current) {
+      // Continuous Rotation
+      groupRef.current.rotation.y = t * 0.3;
+      groupRef.current.rotation.x = t * 0.2;
+      
+      // Interactive Mouse Tracking (Subtle movement)
+      // Lerp makes the movement buttery smooth
+      groupRef.current.position.x += (mouse.x * 1.5 - groupRef.current.position.x) * 0.05;
+      groupRef.current.position.y += (mouse.y * 1.5 - groupRef.current.position.y) * 0.05;
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
+        {/* Inner Solid Core (Cyan) */}
+        <Icosahedron args={[1.2, 1]}>
+          <meshStandardMaterial 
+            color="#22d3ee" 
+            emissive="#22d3ee" 
+            emissiveIntensity={0.5} 
+            roughness={0.2} 
+            metalness={0.8} 
+            wireframe={false} 
+          />
+        </Icosahedron>
+        
+        {/* Outer Wireframe Shell (Purple) */}
+        <Icosahedron args={[1.8, 2]}>
+          <meshBasicMaterial 
+            color="#a855f7" 
+            wireframe={true} 
+            transparent 
+            opacity={0.3} 
+          />
+        </Icosahedron>
+        
+        {/* Second Rotating Outer Ring (Cyan) */}
+        <Icosahedron args={[2.2, 1]}>
+          <meshBasicMaterial 
+            color="#22d3ee" 
+            wireframe={true} 
+            transparent 
+            opacity={0.15} 
+          />
+        </Icosahedron>
+      </Float>
+    </group>
+  );
+};
+
+const DataCoreScene = () => {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={2} />
+        
+        {/* Adds a dynamic starfield behind the core */}
+        <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
+        
+        <CoreGeometry />
+      </Canvas>
+    </div>
+  );
+};
+
+/* ==================== SUB-COMPONENTS ==================== */
 
 // 1. GLITCH TEXT
 const GlitchText = ({ text }) => {
@@ -32,7 +109,7 @@ const GlitchText = ({ text }) => {
   );
 };
 
-// 2. MAGNETIC BUTTON (With Crash Protection)
+// 2. MAGNETIC BUTTON
 const MagneticButton = ({ children }) => {
   const ref = useRef(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -176,14 +253,14 @@ const WorkflowStep = ({ step, title, desc, align }) => {
 
 // 7. SECTION HEADER
 const SectionHeader = ({ title, subtitle }) => (
-  <div className="text-center mb-16">
+  <div className="text-center mb-16 relative z-20">
     <span className="text-cyan-400 font-mono text-sm uppercase tracking-widest block mb-2">{subtitle}</span>
     <h2 className="text-4xl md:text-5xl font-bold">{title}</h2>
     <div className="w-20 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto mt-6 rounded-full"></div>
   </div>
 );
 
-// 8. NEW: HOLOGRAPHIC TESTIMONIAL SLIDER
+// 8. TESTIMONIAL SLIDER
 const Testimonials = () => {
   const reviews = [
     {
@@ -245,7 +322,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 relative">
+    <div className="w-full max-w-4xl mx-auto px-4 relative z-20">
       <SectionHeader title="Client Transmissions" subtitle="What People Say" />
       
       <div className="relative h-[400px] flex items-center justify-center perspective-1000">
@@ -303,10 +380,8 @@ const Home = () => {
   return (
     <div className="bg-[#020617] text-white overflow-hidden relative selection:bg-cyan-500/30">
       
-      {/* --- GLOBAL BACKGROUND --- */}
+      {/* --- GLOBAL BACKGROUND NOISE --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-purple-500/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse delay-1000"></div>
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
       </div>
 
@@ -315,14 +390,15 @@ const Home = () => {
         style={{ scaleX: scrollYProgress }}
       />
 
-      {/* ==================== HERO SECTION ==================== */}
+      {/* ==================== HERO SECTION WITH 3D CORE ==================== */}
       <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-20 z-10">
         
-        {/* Parallax Background */}
-        <motion.div style={{ y: yBg, opacity: opacityHero }} className="absolute inset-0 z-[-1] flex justify-center items-center overflow-hidden">
-          <span className="absolute top-[20%] left-[10%] text-6xl font-bold text-white/5 select-none font-mono">{"<Code />"}</span>
-          <span className="absolute bottom-[20%] right-[10%] text-8xl font-bold text-white/5 select-none font-mono">{"{ }"}</span>
-          <span className="absolute top-[40%] right-[20%] text-4xl font-bold text-white/5 select-none font-mono">npm install</span>
+        {/* 3D Data Core Canvas */}
+        <motion.div 
+          style={{ y: yBg, opacity: opacityHero }} 
+          className="absolute inset-0 z-[0] flex justify-center items-center overflow-hidden pointer-events-none"
+        >
+          <DataCoreScene />
         </motion.div>
 
         {/* Status Badge */}
@@ -330,18 +406,18 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-8 relative z-20"
         >
-          <span className="px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-mono font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+          <span className="px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-mono font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(34,211,238,0.2)] backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
             OPEN FOR FREELANCE WORK
           </span>
         </motion.div>
 
         {/* Name & Headline */}
-        <div className="text-center relative mb-8">
+        <div className="text-center relative mb-8 z-20">
           <GlitchText text="I AM" />
-          <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-purple-500 mt-2">
+          <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-purple-500 mt-2 drop-shadow-2xl">
              KOUSTAV PAN
           </h1>
           <p className="text-sm md:text-base text-gray-400 font-mono mt-4 tracking-widest uppercase">
@@ -354,7 +430,7 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="text-lg md:text-xl text-gray-400 max-w-2xl text-center leading-relaxed mb-12"
+          className="text-lg md:text-xl text-gray-300 max-w-2xl text-center leading-relaxed mb-12 relative z-20 drop-shadow-lg"
         >
           I architect scalable digital ecosystems using <span className="text-cyan-400 font-bold">Java</span> and <span className="text-purple-400 font-bold">React</span>. 
           Focusing on performance, accessibility, and pixel-perfect UIs.
@@ -365,7 +441,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="flex flex-col md:flex-row gap-6"
+          className="flex flex-col md:flex-row gap-6 relative z-20"
         >
           <MagneticButton>
             <Link to="/projects" className="px-8 py-4 bg-cyan-400 text-black font-bold rounded-full text-lg hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center gap-2">
@@ -383,7 +459,7 @@ const Home = () => {
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500 flex flex-col items-center gap-2"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500 flex flex-col items-center gap-2 z-20"
         >
           <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
           <div className="w-[1px] h-12 bg-gradient-to-b from-cyan-400 to-transparent"></div>
@@ -518,7 +594,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==================== NEW TESTIMONIALS SECTION ==================== */}
+      {/* ==================== TESTIMONIALS SECTION ==================== */}
       <section className="py-24 bg-gradient-to-b from-[#0a0f1e] to-[#020617] relative z-20 border-t border-white/5">
         <Testimonials />
       </section>
