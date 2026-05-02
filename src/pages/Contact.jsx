@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 
   FaEnvelope, FaWhatsapp, FaMapMarkerAlt, FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaArrowRight, FaCrosshairs, FaTerminal
@@ -24,6 +24,39 @@ const ScrambleText = ({ text }) => {
   return <span>{displayText}</span>;
 };
 
+const ParticleField = () => {
+  const particles = useMemo(
+    () => Array.from({ length: 12 }, (_, index) => ({
+      id: index,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 0.8 + Math.random() * 1.4,
+      delay: Math.random() * 3,
+    })),
+    []
+  );
+
+  return (
+    <>
+      {particles.map((particle) => (
+        <motion.span
+          key={particle.id}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: [0.15, 0.9, 0.15], scale: [0.8, 1.2, 0.8] }}
+          transition={{ duration: 6, repeat: Infinity, delay: particle.delay, ease: "easeInOut" }}
+          className="pointer-events-none absolute rounded-full bg-cyan-400/20 blur-xl"
+          style={{
+            width: `${particle.size}rem`,
+            height: `${particle.size}rem`,
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
 const SpotlightCard = ({ children, className }) => {
   const ref = useRef(null);
   const mouseX = useMotionValue(0);
@@ -45,9 +78,10 @@ const SpotlightCard = ({ children, className }) => {
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
         style={{
-          background: useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(34, 211, 238, 0.15), transparent 80%)`,
+          background: useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(34, 211, 238, 0.18), transparent 72%)`,
         }}
       />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.04),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.08),transparent_30%)] opacity-80"></div>
       {children}
     </div>
   );
@@ -229,7 +263,7 @@ const MagneticSocialBtn = ({ icon, link, label }) => {
       target="_blank"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      animate={{ x: x.get(), y: y.get() }}
+      style={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       className="relative flex items-center justify-center w-14 h-14 bg-white/5 rounded-full border border-white/10 hover:bg-cyan-500/10 hover:border-cyan-500/50 transition-colors group z-20"
     >
@@ -377,6 +411,7 @@ const Contact = () => {
         transition={{ type: "tween", ease: "backOut", duration: 0.5 }}
       />
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0 mix-blend-overlay"></div>
+      <ParticleField />
       <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 z-[100] bg-[length:200%_auto] animate-shimmer"></div>
       
       <div className="max-w-7xl mx-auto relative z-10">
@@ -476,6 +511,24 @@ const Contact = () => {
         }
         .animate-shimmer {
           animation: shimmer 3s linear infinite;
+        }
+        .glitch-base {
+          position: relative;
+          display: inline-block;
+          font-weight: 900;
+        }
+        .glitch-layer {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          overflow: hidden;
+          clip-path: inset(0 0 0 0);
+        }
+        .glitch-layer-1 {
+          color: rgba(34, 211, 238, 0.8);
+          text-shadow: -2px 0 rgba(34, 211, 238, 0.8);
+          animation: glitch-1 2.7s infinite linear alternate-reverse;
         }
       `}</style>
     </div>

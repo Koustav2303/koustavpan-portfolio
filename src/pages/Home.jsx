@@ -494,37 +494,37 @@ const Home = () => {
               icon={<FaLaptopCode />} 
               title="Frontend Architecture" 
               desc="Building complex, state-driven SPAs with React, Next.js, and Tailwind." 
-              tags={["React", "Framer", "Tailwind"]}
+              tags={["React", "Next.js", "TypeScript", "Framer", "Tailwind", "Redux", "Vue.js", "Vite"]}
             />
             <TiltCard 
               icon={<FaServer />} 
               title="Backend Systems" 
               desc="Designing robust REST APIs and Microservices using Java Spring Boot." 
-              tags={["Java", "Spring", "Security"]}
+              tags={["Java", "Spring Boot", "Node.js", "Express.js", "Python", "FastAPI", "REST", "GraphQL"]}
             />
             <TiltCard 
               icon={<SiDocker />} 
               title="DevOps & Cloud" 
               desc="Deployment automation, CI/CD pipelines, and containerization." 
-              tags={["Docker", "AWS", "Git"]}
+              tags={["Docker", "AWS", "Git", "Kubernetes", "GitHub Actions", "Jenkins", "Vercel", "Netlify"]}
             />
             <TiltCard 
               icon={<FaDatabase />} 
               title="Database Engineering" 
               desc="Optimizing SQL queries, designing normalized schemas with MySQL & PostgreSQL." 
-              tags={["MySQL", "Hibernate", "SQL"]}
+              tags={["MySQL", "PostgreSQL", "MongoDB", "Redis", "Hibernate", "SQL", "NoSQL", "Firebase"]}
             />
             <TiltCard 
               icon={<FaMobileAlt />} 
               title="Mobile First Design" 
               desc="Creating responsive layouts that work perfectly on any device. PWA development." 
-              tags={["Responsive", "PWA", "Mobile"]}
+              tags={["Responsive", "PWA", "Mobile", "Bootstrap", "Material-UI", "CSS Grid", "Flexbox", "React Native"]}
             />
             <TiltCard 
               icon={<FaPaintBrush />} 
               title="UI/UX Implementation" 
               desc="Translating Figma designs into pixel-perfect code. Meeting accessibility standards." 
-              tags={["Figma", "UI/UX", "A11y"]}
+              tags={["Figma", "UI/UX", "A11y", "CSS3", "Animations", "Testing", "Jest", "Performance"]}
             />
           </div>
         </div>
