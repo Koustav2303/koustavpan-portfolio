@@ -14,7 +14,6 @@ import Preloader from "./components/Preloader";
 import CustomCursor from "./components/CustomCursor";
 import ScrollProgress from "./components/ScrollProgress";
 import CommandPalette from "./components/CommandPalette";
-import ThemeToggle from "./components/ThemeToggle";
 import HexaBot from "./components/HexaBot";
 
 /* ==================== MENU BUTTON ==================== */
@@ -169,7 +168,6 @@ const Layout = () => {
       <CustomCursor />
       <ScrollProgress />
       <CommandPalette />
-      <ThemeToggle />
       <ScrollToTop />
       
       {/* NAVBAR */}

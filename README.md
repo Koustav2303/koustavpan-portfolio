@@ -29,8 +29,7 @@ koustav-portfolio/
 │   │   ├── GithubGraph.jsx    # 2.5D holographic GitHub contribution matrix
 │   │   ├── HexaBot.jsx        # Draggable client-side AI terminal
 │   │   ├── Preloader.jsx      # Initial boot-sequence animation screen
-│   │   ├── ScrollProgress.jsx # Dynamic viewport scroll indicator
-│   │   └── ThemeToggle.jsx    # Cyber-curtain Dark/Light mode switcher
+│   │   └── ScrollProgress.jsx # Dynamic viewport scroll indicator
 │   │
 │   ├── data/               # Local data structures & state configs
 │   │   └── botData.js         # NLP knowledge base for HexaBot
@@ -69,9 +68,6 @@ Embedded Documentation: Features a secure, unclickable embedded PDF viewer displ
 Holographic Radar: Utilizes a custom inverted SVG world map with a pulsing 12.97° N, 77.59° E (Bengaluru) geospatial beacon.
 
 Direct Form Injection: The contact form bypasses traditional SMTP servers, seamlessly formatting user input and injecting it directly into a secure WhatsApp API intent for instant communication.
-
-🌗 Sub-Second State Transition (Cyber-Curtain)
-A flawlessly executed Dark/Light mode switcher. To prevent the dreaded "CSS color flash", this component deploys a hardware-accelerated, full-screen circular clipping mask (SYSTEM_REBOOT) to seamlessly hide the DOM variable swap behind a cinematic animation.
 
 ⚡ PERFORMANCE OPTIMIZATION
 This system is engineered for maximum frame rates.
