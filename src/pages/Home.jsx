@@ -233,18 +233,38 @@ const PricingCard = ({ tier, price, icon, desc, features, isPopular, delay }) =>
 };
 
 // 6. WORKFLOW STEP
-const WorkflowStep = ({ step, title, desc, align }) => {
+const WorkflowStep = ({ step, title, desc, align, phase, output, accent, icon, milestones }) => {
   return (
     <div className={`flex flex-col md:flex-row items-center justify-between mb-24 relative w-full ${align === 'right' ? 'md:flex-row-reverse' : ''}`}>
       <motion.div initial={{ opacity: 0, x: align === 'left' ? -50 : 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.5 }} className={`w-full md:w-[45%] ${align === 'right' ? 'md:text-left' : 'md:text-right'} text-left pl-[60px] md:pl-0`}>
-        <h3 className="text-3xl font-bold mb-4 flex flex-col md:block">
-          <span className="text-5xl text-white/10 font-black absolute -top-8 opacity-50 select-none pointer-events-none">{step}</span>
-          <span className="relative z-10">{title}</span>
-        </h3>
-        <p className="text-gray-400 leading-relaxed">{desc}</p>
+        <div className="relative rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 md:p-7 overflow-hidden group hover:border-cyan-400/40 transition-all duration-500">
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10"></div>
+          <span className={`absolute top-0 ${align === 'right' ? 'right-0' : 'left-0'} h-[2px] w-full bg-gradient-to-r ${accent}`}></span>
+          <h3 className="text-3xl font-bold mb-3 flex flex-col md:block relative z-10">
+            <span className="text-5xl text-white/10 font-black absolute -top-8 opacity-50 select-none pointer-events-none">{step}</span>
+            <span className="relative z-10">{title}</span>
+          </h3>
+          <div className="relative z-10 mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-cyan-300 text-xs font-mono tracking-wide">
+            <span className="text-sm">{icon}</span>
+            Active Stage
+          </div>
+          <p className="text-gray-400 leading-relaxed relative z-10">{desc}</p>
+          <div className="mt-4 space-y-2 relative z-10">
+            {milestones.map((point, i) => (
+              <div key={i} className="text-sm text-gray-300 flex items-start gap-2">
+                <span className="text-cyan-400 mt-0.5"><FaCheck /></span>
+                <span>{point}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2 relative z-10">
+            <span className="text-[11px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-400/20">{phase}</span>
+            <span className="text-[11px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-400/20">{output}</span>
+          </div>
+        </div>
       </motion.div>
-      <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 w-12 h-12 bg-[#020617] border-4 border-cyan-500 rounded-full z-10 flex items-center justify-center">
-         <div className="w-3 h-3 bg-white rounded-full"></div>
+      <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 w-12 h-12 bg-[#020617] border-4 border-cyan-500 rounded-full z-10 flex items-center justify-center shadow-[0_0_18px_rgba(34,211,238,0.35)]">
+         <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
       </div>
       <div className="hidden md:block w-[45%]"></div>
     </div>
@@ -584,12 +604,22 @@ const Home = () => {
       <section className="py-32 px-6 relative z-20">
         <div className="max-w-5xl mx-auto">
           <SectionHeader title="The Process" subtitle="From Concept to Deployment" />
+          <div className="text-center mb-10">
+            <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              A transparent, collaborative workflow where every milestone ships with clear outcomes.
+            </p>
+          </div>
           <div className="relative mt-20">
             <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-400 via-purple-500 to-transparent -translate-x-1/2"></div>
-            <WorkflowStep step="01" title="Discovery" desc="Understanding requirements, user needs, and business goals." align="left" />
-            <WorkflowStep step="02" title="Design & Proto" desc="Creating wireframes and high-fidelity UI designs." align="right" />
-            <WorkflowStep step="03" title="Development" desc="Writing clean, modular code with React and Java." align="left" />
-            <WorkflowStep step="04" title="Testing & Deploy" desc="Rigorous testing and deploying to cloud platforms." align="right" />
+            <motion.div
+              className="absolute left-[20px] md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.9)]"
+              animate={{ y: [0, 520, 0], opacity: [0.9, 1, 0.9], scale: [1, 1.2, 1] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <WorkflowStep step="01" title="Discovery Sprint" desc="Stakeholder sessions, audience mapping, and scope freeze to align product direction." align="left" phase="Strategy" output="Roadmap + Scope" accent="from-cyan-400 via-blue-500 to-transparent" icon={<FaLayerGroup />} milestones={["Business goals mapped", "User pain points documented"]} />
+            <WorkflowStep step="02" title="Design Lab" desc="Wireframes evolve into interactive visuals with motion-first UI systems and component flows." align="right" phase="Experience" output="Prototype + UI Kit" accent="from-purple-400 via-pink-500 to-transparent" icon={<FaPaintBrush />} milestones={["Visual language finalized", "User flow validated"]} />
+            <WorkflowStep step="03" title="Build Engine" desc="Production-grade frontend and backend implementation with modular architecture and clean APIs." align="left" phase="Engineering" output="Feature Complete" accent="from-cyan-400 via-purple-500 to-transparent" icon={<FaCode />} milestones={["Core modules integrated", "Performance baseline achieved"]} />
+            <WorkflowStep step="04" title="Launch Control" desc="QA hardening, optimization, and cloud deployment with monitoring for post-launch stability." align="right" phase="Delivery" output="Live + Monitored" accent="from-blue-400 via-cyan-500 to-transparent" icon={<FaRocket />} milestones={["Release checklist passed", "Monitoring and analytics live"]} />
           </div>
         </div>
       </section>
