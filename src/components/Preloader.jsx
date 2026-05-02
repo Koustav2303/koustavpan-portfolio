@@ -130,7 +130,6 @@ const Preloader = ({ onLoadingComplete }) => {
           <div className="relative z-30 flex-1 flex flex-col items-center justify-center pointer-events-none">
             
             <div className="w-full max-w-2xl px-6 flex flex-col items-center">
-              
               {/* Animated Progress Percentage */}
               <div className="flex items-baseline gap-2 mb-2 relative">
                 <motion.span 
