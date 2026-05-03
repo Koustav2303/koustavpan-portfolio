@@ -677,16 +677,16 @@ const Projects = () => {
       tags: ["React JS", "Tailwind CSS", "GSAP"],
       links: { demo: "https://koustav2303.github.io/seven-wonders/", github: "https://github.com/Koustav2303/seven-wonderse" }
     },
-    {
-      id: 12,
-      title: "Modern Users Dashboard",
-      category: "UI/UX",
-      status: "Live",
-      desc: "This project is a high-end web application designed to showcase user profiles with an award-winning level of polish. Built on React and Tailwind CSS, it transforms standard data into a cinematic dashboard experience. The UI features sophisticated frosted glass panels over a dark atmospheric background, while GSAP powers buttery-smooth, staggered entry animations and dynamic skill charts. Designed with a mobile-first approach, it seamlessly transitions from a sleek bottom-navigation app on mobile to a locked-in, two-column dashboard on desktop.",
-      image: project12,
-      tags: ["React JS", "Tailwind CSS", "GSAP","Glassmorphism"],
-      links: { demo: "https://koustav2303.github.io/modern-users/", github: "https://github.com/Koustav2303/modern-users" }
-    },
+    // {
+    //   id: 12,
+    //   title: "Modern Users Dashboard",
+    //   category: "UI/UX",
+    //   status: "Live",
+    //   desc: "This project is a high-end web application designed to showcase user profiles with an award-winning level of polish. Built on React and Tailwind CSS, it transforms standard data into a cinematic dashboard experience. The UI features sophisticated frosted glass panels over a dark atmospheric background, while GSAP powers buttery-smooth, staggered entry animations and dynamic skill charts. Designed with a mobile-first approach, it seamlessly transitions from a sleek bottom-navigation app on mobile to a locked-in, two-column dashboard on desktop.",
+    //   image: project12,
+    //   tags: ["React JS", "Tailwind CSS", "GSAP","Glassmorphism"],
+    //   links: { demo: "https://koustav2303.github.io/modern-users/", github: "https://github.com/Koustav2303/modern-users" }
+    // },
   ];
 
   const filteredProjects = activeTab === "All" 
