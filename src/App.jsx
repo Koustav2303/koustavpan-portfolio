@@ -1,5 +1,6 @@
 import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Lenis from "lenis";
 import { FaGithub, FaLinkedin, FaTwitter, FaHeart } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -7,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
+import Lab from "./pages/Lab"; // <--- IMPORTED LAB PAGE
 import Contact from "./pages/Contact";
 
 // COMPONENTS
@@ -49,6 +51,7 @@ const MobileMenu = ({ isOpen, setIsOpen, currentPath }) => {
     { name: "HOME", to: "/" },
     { name: "ABOUT", to: "/about" },
     { name: "PROJECTS", to: "/projects" },
+    { name: "LAB", to: "/lab" }, // <--- ADDED LAB TO MOBILE MENU
     { name: "CONTACT", to: "/contact" }
   ];
 
@@ -57,10 +60,12 @@ const MobileMenu = ({ isOpen, setIsOpen, currentPath }) => {
     animate: { scaleY: 1, transition: { duration: 0.4, ease: [0.12, 0, 0.39, 0] } },
     exit: { scaleY: 0, transition: { delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
   };
+  
   const containerVars = {
     initial: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
     open: { transition: { delayChildren: 0.2, staggerChildren: 0.05, staggerDirection: 1 } }
   };
+  
   const linkVars = {
     initial: { y: 20, opacity: 0, transition: { duration: 0.3, ease: "easeInOut" } },
     open: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } }
@@ -132,14 +137,22 @@ const MobileMenu = ({ isOpen, setIsOpen, currentPath }) => {
 };
 
 /* ==================== SCROLL RESET ==================== */
-const ScrollToTop = () => {
+const ScrollToTop = ({ lenisRef }) => {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+
+  useEffect(() => {
+    if (lenisRef?.current) {
+      lenisRef.current.scrollTo(0, { duration: 0, immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenisRef]);
+
   return null;
 };
 
 /* ==================== MAIN LAYOUT ==================== */
-const Layout = () => {
+const Layout = ({ lenisRef }) => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
@@ -165,10 +178,11 @@ const Layout = () => {
     // BULLETPROOF WIDTH CONSTRAINT HERE
     <div className="min-h-screen w-full max-w-[100vw] font-sans selection:bg-cyan-500/30 selection:text-cyan-200 relative cursor-none transition-colors duration-500 overflow-x-hidden bg-[#020617]">
       
+      {/* Global Components */}
       <CustomCursor />
       <ScrollProgress />
       <CommandPalette />
-      <ScrollToTop />
+      <ScrollToTop lenisRef={lenisRef} />
       
       {/* NAVBAR */}
       <nav 
@@ -183,7 +197,8 @@ const Layout = () => {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
            <ul className="flex gap-8 text-sm font-medium text-gray-300 drop-shadow-md">
-             {['Home', 'About', 'Projects', 'Contact'].map((item) => {
+             {/* <--- ADDED LAB TO DESKTOP NAVBAR ---> */}
+             {['Home', 'About', 'Projects', 'Lab', 'Contact'].map((item) => {
                const targetPath = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
                const isActive = pathname === targetPath;
                return (
@@ -232,6 +247,7 @@ const Layout = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/lab" element={<Lab />} /> {/* <--- ADDED LAB ROUTE ---> */}
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
@@ -248,7 +264,8 @@ const Layout = () => {
           <div>
             <h3 className="font-bold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              {['Home', 'About', 'Projects', 'Contact'].map(link => {
+              {/* <--- ADDED LAB TO FOOTER ---> */}
+              {['Home', 'About', 'Projects', 'Lab', 'Contact'].map(link => {
                 const targetPath = link === 'Home' ? '/' : `/${link.toLowerCase()}`;
                 const isActive = pathname === targetPath;
                 return (
@@ -286,7 +303,6 @@ const Layout = () => {
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-6 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-          {/* Dynamic Year added here */}
           <p>© {new Date().getFullYear()} Koustav Pan. All rights reserved.</p>
           <p className="flex items-center gap-1 mt-4 md:mt-0">Made with <FaHeart className="text-red-500 animate-pulse" /> in India</p>
         </div>
@@ -301,6 +317,34 @@ const Layout = () => {
 /* ==================== APP ROOT ==================== */
 function App() {
   const [loading, setLoading] = useState(true);
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    if (lenisRef.current) return;
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      direction: "vertical",
+      gestureDirection: "vertical",
+      mouseMultiplier: 1,
+      smoothTouch: true,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
 
   return (
     <>
@@ -308,7 +352,7 @@ function App() {
       
       <div className={loading ? "h-screen overflow-hidden" : ""}>
         <Router>
-          <Layout />
+          <Layout lenisRef={lenisRef} />
         </Router>
       </div>
     </>
