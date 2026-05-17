@@ -22,6 +22,9 @@ import {
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Icosahedron, Float, Stars } from "@react-three/drei";
 
+// NEW COMPONENT IMPORT
+import TechMastery from "../components/TechMastery";
+
 /* ==================== 3D INTERACTIVE DATA CORE ==================== */
 
 const CoreGeometry = () => {
@@ -503,6 +506,9 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* ==================== TECH MASTERY SCROLL ==================== */}
+      <TechMastery />
 
       {/* ==================== SERVICES GRID (6 CARDS) ==================== */}
       <section className="py-32 px-6 relative z-20">
