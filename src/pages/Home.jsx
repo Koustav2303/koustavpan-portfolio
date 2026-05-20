@@ -7,6 +7,7 @@ import {
   useInView,
   animate,
   useMotionValue,
+  useSpring, // <-- Added useSpring for smooth tilt physics
   AnimatePresence 
 } from "framer-motion";
 import { 
@@ -38,7 +39,6 @@ const CoreGeometry = () => {
       groupRef.current.rotation.x = t * 0.2;
       
       // Interactive Mouse Tracking (Subtle movement)
-      // Lerp makes the movement buttery smooth
       groupRef.current.position.x += (mouse.x * 1.5 - groupRef.current.position.x) * 0.05;
       groupRef.current.position.y += (mouse.y * 1.5 - groupRef.current.position.y) * 0.05;
     }
@@ -141,20 +141,40 @@ const MagneticButton = ({ children }) => {
   );
 };
 
-// 3. TILT CARD
+// 3. TILT CARD (FIXED FOR MOBILE SCROLLING)
 const TiltCard = ({ icon, title, desc, tags }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [30, -30]);
-  const rotateY = useTransform(x, [-100, 100], [-30, 30]);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth out the motion values using spring physics
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
+  const springX = useSpring(mouseX, springConfig);
+  const springY = useSpring(mouseY, springConfig);
+
+  // Transform raw mouse percentages into tilt angles (max 15 degrees)
+  const rotateX = useTransform(springY, [-0.5, 0.5], [15, -15]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-15, 15]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    // Calculate mouse position as a percentage from center (-0.5 to 0.5)
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(xPct);
+    mouseY.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    // Snap back to 0 on leave
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   return (
     <motion.div
-      style={{ x, y, rotateX, rotateY, z: 100 }}
-      drag
-      dragElastic={0.16}
-      dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-      whileHover={{ cursor: "grabbing" }}
+      style={{ rotateX, rotateY, z: 100 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="relative w-full h-full bg-[#0a0f1e] p-8 rounded-3xl border border-white/5 hover:border-cyan-500/30 group transition-colors duration-500"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
