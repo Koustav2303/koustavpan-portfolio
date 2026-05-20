@@ -7,7 +7,7 @@ import {
   useInView,
   animate,
   useMotionValue,
-  useSpring, // <-- Added useSpring for smooth tilt physics
+  useSpring,
   AnimatePresence 
 } from "framer-motion";
 import { 
@@ -23,8 +23,9 @@ import {
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Icosahedron, Float, Stars } from "@react-three/drei";
 
-// NEW COMPONENT IMPORT
+// CUSTOM COMPONENTS
 import TechMastery from "../components/TechMastery";
+import SkillRadar from "../components/SkillRadar";
 
 /* ==================== 3D INTERACTIVE DATA CORE ==================== */
 
@@ -526,6 +527,9 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* ==================== HOLOGRAPHIC SKILL RADAR ==================== */}
+      <SkillRadar />
 
       {/* ==================== TECH MASTERY SCROLL ==================== */}
       <TechMastery />
