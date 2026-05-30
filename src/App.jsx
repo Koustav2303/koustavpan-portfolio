@@ -232,8 +232,17 @@ const PremiumFooter = ({ pathname }) => {
         footerRef.current?.removeEventListener("mouseleave", onMouseLeave);
       };
     }, footerRef);
-    return () => ctx.revert();
-  }, []);
+
+    // FIX: Force GSAP to recalculate positions slightly after route change
+    const timeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timeout);
+    };
+  }, [pathname]); // <-- Re-run this effect when pathname changes
 
   return (
     <footer ref={footerRef} className="relative pt-32 pb-8 mt-auto z-10 bg-[#020617] w-full overflow-hidden border-t border-white/5 group">
@@ -334,11 +343,24 @@ const ScrollToTop = ({ lenisRef }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (lenisRef?.current) {
-      lenisRef.current.scrollTo(0, { duration: 0, immediate: true });
-    } else {
-      window.scrollTo(0, 0);
+    // 1. Force native browser scroll to top instantly
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 2. Force Lenis smooth scroller to reset its internal coordinates
+    if (lenisRef && lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true, force: true });
     }
+    
+    // 3. Safety fallback: Just in case Lenis is still initializing
+    const timeoutId = setTimeout(() => {
+      if (lenisRef?.current) {
+        lenisRef.current.scrollTo(0, { immediate: true, force: true });
+      }
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
   }, [pathname, lenisRef]);
 
   return null;
